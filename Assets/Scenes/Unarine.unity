@@ -61581,7 +61581,19 @@ MonoBehaviour:
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_DeviceRegainedEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -61732,9 +61744,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 10
   gravity: -9.81
+  jumpHeight: 1.5
   cameraTransform: {fileID: 330585546}
   lookSensitivity: 0.8
   verticalLookLimit: 90
+  crouchHeight: 1
+  standHeight: 2
+  crouchSpeed: 2
 --- !u!143 &1039157912
 CharacterController:
   m_ObjectHideFlags: 0
