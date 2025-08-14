@@ -27,55 +27,56 @@ public class InteractableObjects : MonoBehaviour
             interactText.enabled = false;
         }
        
-        void Update()
+       
+    }
+    void Update()
+    {
+        Transform player = Camera.main.transform;
+        float distance = Vector3.Distance(transform.position, player.position);
+
+        if (distance <= interactDistance)
         {
-            Transform player = Camera.main.transform;
-            float distance = Vector3.Distance(transform.position, player.position);
+            HighlightObject(true);
 
-            if (distance <= interactDistance)
+            if (interactText != null)
             {
-                HighlightObject(true);
-
-                if (interactText != null)
-                {
-                    interactText.text = $"Press '{pickupKey.ToUpper()}' to pick up";
-                    interactText.enabled = true;
-                }
-
-                if (Input.GetKeyDown(pickupKey))
-                {
-                    PickUp();
-                }
+                interactText.text = $"Press '{pickupKey.ToUpper()}' to pick up";
+                interactText.enabled = true;
             }
-            else
-            {
-                HighlightObject(false);
 
-                if (interactText != null)
-                {
-                    interactText.enabled = false;
-                }
+            if (Input.GetKeyDown(pickupKey))
+            {
+                PickUp();
             }
         }
-
-        void HighlightObject(bool highlight)
+        else
         {
-            if (objRenderer != null)
-            {
-                objRenderer.material.color = highlight ? highlightColor : originalColor;
-                isHighlighted = highlight;
-            }
-        }
-
-        void PickUp()
-        {
-            // Example: deactivate the object
-            gameObject.SetActive(false);
+            HighlightObject(false);
 
             if (interactText != null)
             {
                 interactText.enabled = false;
             }
+        }
+    }
+
+    void HighlightObject(bool highlight)
+    {
+        if (objRenderer != null)
+        {
+            objRenderer.material.color = highlight ? highlightColor : originalColor;
+            isHighlighted = highlight;
+        }
+    }
+
+    void PickUp()
+    {
+        // Example: deactivate the object
+        gameObject.SetActive(false);
+
+        if (interactText != null)
+        {
+            interactText.enabled = false;
         }
     }
 }
