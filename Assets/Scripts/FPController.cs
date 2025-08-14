@@ -1,13 +1,11 @@
 using UnityEngine;
-
+using UnityEngine;
 using UnityEngine.InputSystem;
 public class FPController : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
     public float gravity = -9.81f;
-    //(Jumping)
-    public float jumpHeight = 1.5f;
     [Header("Look Settings")]
     public Transform cameraTransform;
     public float lookSensitivity = 2f;
@@ -17,14 +15,6 @@ public class FPController : MonoBehaviour
     private Vector2 lookInput;
     private Vector3 velocity;
     private float verticalRotation = 0f;
-    //(Crouching)
-    public float crouchHeight = 1f;
-    public float standHeight = 2f;
-    public float crouchSpeed = 2f;
-    private float originalMoveSpeed;
-    
-
-
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -63,21 +53,5 @@ public class FPController : MonoBehaviour
         verticalLookLimit);
         cameraTransform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX);
-    }
-    public void OnCrouch(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            if (controller.height == standHeight)
-            {
-                controller.height = crouchHeight;
-                moveSpeed = crouchSpeed;
-            }
-            else
-            {
-                controller.height = standHeight;
-                moveSpeed = originalMoveSpeed;
-            }
-        }
     }
 }
