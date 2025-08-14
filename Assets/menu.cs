@@ -20,7 +20,7 @@ public class menu : MonoBehaviour
             InGamemenu.SetActive(true);
             Time.timeScale = 0f; // Pause the game
         }
-        else if (Input.GetKeyDown(KeyCode.Return))
+        else if (Input.GetKeyDown(KeyCode.KeypadEnter))
         {
             InGamemenu.SetActive(false);
             Time.timeScale = 1f; // Resume the game
