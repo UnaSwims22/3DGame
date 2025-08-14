@@ -66,25 +66,18 @@ public class FPController : MonoBehaviour
     }
     public void OnCrouch(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.started)
         {
-            controller.height = crouchHeight;
-            moveSpeed = crouchSpeed;
-        }
-        else
-        {
-            controller.height = standHeight;
-            moveSpeed = originalMoveSpeed;
-        }
-    }
-           
-       
-       
-    public void OnJump(InputAction.CallbackContext context)
-    {
-        if (context.performed && controller.isGrounded)
-        {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            if (controller.height == standHeight)
+            {
+                controller.height = crouchHeight;
+                moveSpeed = crouchSpeed;
+            }
+            else
+            {
+                controller.height = standHeight;
+                moveSpeed = originalMoveSpeed;
+            }
         }
     }
 }
