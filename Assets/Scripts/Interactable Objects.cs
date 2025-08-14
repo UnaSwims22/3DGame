@@ -1,12 +1,14 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+//using UnityEngine.TMPro;
 
 public class InteractableObjects : MonoBehaviour
 {
     public Color highlightColor = Color.yellow;
     public float interactDistance = 3f;
     public string pickupKey = "e";
-    public Text interactText; // Assign in Inspector
+    public TextMeshProUGUI interactText; // Assign in Inspector
 
     private Color originalColor;
     private Renderer objRenderer;

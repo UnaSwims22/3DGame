@@ -432,27 +432,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 05661b79efb43804bbd149b6bf11e282, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.4778
+      value: 5.8723855
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 05661b79efb43804bbd149b6bf11e282, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2.258
+      value: 6.93206
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 05661b79efb43804bbd149b6bf11e282, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2.9087
+      value: 7.4805946
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 05661b79efb43804bbd149b6bf11e282, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.4492
+      value: 24.308
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 05661b79efb43804bbd149b6bf11e282, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 21.2
+      value: 2.1337
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 05661b79efb43804bbd149b6bf11e282, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.65
+      value: -19.184
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 05661b79efb43804bbd149b6bf11e282, type: 3}
       propertyPath: m_LocalRotation.w
@@ -514,7 +514,7 @@ MonoBehaviour:
   highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   interactDistance: 3
   pickupKey: e
-  interactText: {fileID: 0}
+  interactText: {fileID: 1950031864}
 --- !u!1 &1684143017
 GameObject:
   m_ObjectHideFlags: 0
