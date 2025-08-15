@@ -61298,9 +61298,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 10
   gravity: -9.81
+  jumpHeight: 1.5
   cameraTransform: {fileID: 330585546}
   lookSensitivity: 0.8
   verticalLookLimit: 90
+  crouchHeight: 0.5
+  standHeight: 2
+  crouchSpeed: 2
 --- !u!143 &1039157912
 CharacterController:
   m_ObjectHideFlags: 0
@@ -109952,6 +109956,10 @@ PrefabInstance:
     - target: {fileID: 262899764227692607, guid: d82439b0db9d4fa4a9fc23743ce50ff7, type: 3}
       propertyPath: m_Name
       value: player (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2702505463302362347, guid: d82439b0db9d4fa4a9fc23743ce50ff7, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5964532581051512274, guid: d82439b0db9d4fa4a9fc23743ce50ff7, type: 3}
       propertyPath: m_LocalPosition.x
