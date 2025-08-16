@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections;
 public class ReactiveTarget : MonoBehaviour
 {
     public void ReactToHit()

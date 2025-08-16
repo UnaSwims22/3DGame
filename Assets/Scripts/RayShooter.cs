@@ -1,6 +1,6 @@
 using Unity.Mathematics;
 using UnityEngine;
-
+using System.Collections;
 public class RayShooter : MonoBehaviour
 {
     private Camera _camera;
