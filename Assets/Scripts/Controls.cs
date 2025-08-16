@@ -287,6 +287,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""7065d77b-bcd5-45af-b68c-ba1f88dbe028"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": ""StickDeadzone"",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""924377ce-1887-46ca-925e-2db6831d654e"",
                     ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
