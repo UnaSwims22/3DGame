@@ -6,8 +6,10 @@ public class FPController : MonoBehaviour
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
     public float gravity = -9.81f;
+    
     //(Jumping)
     public float jumpHeight = 1.5f;
+
     [Header("Look Settings")]
     public Transform cameraTransform;
     public float lookSensitivity = 2f;
@@ -17,6 +19,7 @@ public class FPController : MonoBehaviour
     private Vector2 lookInput;
     private Vector3 velocity;
     private float verticalRotation = 0f;
+
     //(Crouching)
     public float crouchHeight = 1f;
     public float standHeight = 2f;
@@ -78,7 +81,7 @@ public class FPController : MonoBehaviour
         }
     }
            
-       
+
        
     public void OnJump(InputAction.CallbackContext context)
     {
