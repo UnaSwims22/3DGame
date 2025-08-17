@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 using UnityEngine.InputSystem;
@@ -32,6 +33,9 @@ public class FPController : MonoBehaviour
     public Transform holdPoint;
     private PickUpObject heldObject;
 
+    [Header("Throw Settings")]
+    public float throwForce = 10f;
+    public float throwUpwardBoost = 1f;
 
     private void Awake()
     {
@@ -121,7 +125,8 @@ public class FPController : MonoBehaviour
         }
     }
 
-       
+    
+ 
     public void OnJump(InputAction.CallbackContext context)
     {
         if (context.performed && controller.isGrounded)

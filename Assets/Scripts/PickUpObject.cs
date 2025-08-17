@@ -25,8 +25,9 @@ public class PickUpObject : MonoBehaviour
         transform.SetParent(null);
 
     }
+    
 
-    public void MoveToHoldPoint(Vector3 targetPosition)
+public void MoveToHoldPoint(Vector3 targetPosition)
     {
         rb.MovePosition(targetPosition);
     }
