@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using JetBrains.Annotations;
+
 
 
 public class SceneMngr : MonoBehaviour
@@ -11,6 +11,7 @@ public class SceneMngr : MonoBehaviour
     public Button optionsButton;
     public Button exitButton;
     public GameObject menu;
+    public FPController playerController;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -21,6 +22,14 @@ public class SceneMngr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Prevent player movement when paused
+        if (menu.activeSelf)
+        {
+            // Optionally, you can disable the player controller script here
+            // Example: playerController.enabled = false;
+            // Or set a static flag for movement scripts to check
+        }
+
         // Listen for Escape key to toggle pause menu
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -29,18 +38,20 @@ public class SceneMngr : MonoBehaviour
                 // Pause and show menu
                 menu.SetActive(true);
                 Time.timeScale = 0f;
-                // Enable mouse cursor and interaction
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
+                // Disable player movement here
+                playerController.enabled = false;
             }
             else
             {
                 // Resume and hide menu
                 menu.SetActive(false);
                 Time.timeScale = 1f;
-                // Optionally hide mouse cursor if needed
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
+                // Enable player movement here
+                playerController.enabled = true;
             }
         }
 
@@ -51,6 +62,8 @@ public class SceneMngr : MonoBehaviour
             Time.timeScale = 1f;
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
+            // Enable player movement here
+            playerController.enabled = true;
         }
     }
     public void OnStartButtonClicked()
