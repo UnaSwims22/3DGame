@@ -14,6 +14,7 @@ public class FPController : MonoBehaviour
     public Transform cameraTransform;
     public float lookSensitivity = 2f;
     public float verticalLookLimit = 90f;
+   
     private CharacterController controller;
     private Vector2 moveInput;
     private Vector2 lookInput;
@@ -25,7 +26,11 @@ public class FPController : MonoBehaviour
     public float standHeight = 2f;
     public float crouchSpeed = 2f;
     private float originalMoveSpeed;
-    
+
+    [Header("PickUp Settiings")]
+    public float pickupRange = 3f;
+    public Transform holdPoint;
+    private PickUpObject heldObject;
 
 
     private void Awake()
@@ -38,6 +43,11 @@ public class FPController : MonoBehaviour
     {
         HandleMovement();
         HandleLook();
+
+        if (heldObject != null)
+        {
+            heldObject.MoveToHoldPoint(holdPoint.position);
+        }
     }
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -81,6 +91,35 @@ public class FPController : MonoBehaviour
         }
     }
            
+    public void OnPickUp(InputAction.CallbackContext context)
+    {
+        if (!context.performed) return;
+
+        if(heldObject == null)
+        {
+            Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit, pickupRange))
+            {
+                PickUpObject pickUp = hit.collider.GetComponent<PickUpObject>();
+                if (pickUp != null)
+                {
+                    pickUp.PickUp(holdPoint);
+                    heldObject = pickUp;
+                }
+                else
+                {
+                    Debug.Log("Object hit has no PickUpObject component: " + hit.collider.name);
+                }
+            }
+
+
+        }
+        else
+        {
+            heldObject.Drop();
+            heldObject = null;
+        }
+    }
 
        
     public void OnJump(InputAction.CallbackContext context)
