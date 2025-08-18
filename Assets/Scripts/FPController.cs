@@ -42,6 +42,8 @@ public class FPController : MonoBehaviour
         controller = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        originalMoveSpeed = moveSpeed;
     }
     private void Update()
     {
@@ -88,7 +90,7 @@ public class FPController : MonoBehaviour
             controller.height = crouchHeight;
             moveSpeed = crouchSpeed;
         }
-        else
+        else if (context.canceled)
         {
             controller.height = standHeight;
             moveSpeed = originalMoveSpeed;
