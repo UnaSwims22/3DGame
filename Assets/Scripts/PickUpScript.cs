@@ -3,6 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 
+//Title: How to Pick Up + Hold Objects in Unity
+//Author: JonDevTutorials
+//Date: 2022
+//Code Version: 1.4
+//Availability: https://youtu.be/pPcYr3tL3Sc?si=Hh6UHOKrFoUHje-V
 public class PickUpScript : MonoBehaviour
 {
     public GameObject player;
@@ -17,10 +22,7 @@ public class PickUpScript : MonoBehaviour
     private bool canDrop = true;                // don't throw/drop object when rotating the object
     private int LayerNumber;                   //layer index
 
-    //Reference to script which includes mouse movement of player (looking around)
-    //we want to disable the player looking around when rotating the object
-    //example below 
-    //MouseLookScript mouseLookScript;
+   
     FPController playerController;
 
     void Start()
@@ -34,7 +36,7 @@ public class PickUpScript : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E)) // "E" is used to to pick up objects
         {
-            if (heldObj == null) //if currently not holding anything
+            if (heldObj == null) // if not holding anything
             {
                 //perform raycast to check if player is looking at object within pickuprange
                 RaycastHit hit;
@@ -52,7 +54,7 @@ public class PickUpScript : MonoBehaviour
             {
                 if (canDrop == true)
                 {
-                    StopClipping(); //prevents object from clipping through walls
+                    StopClipping(); 
                     DropObject();
                 }
             }
@@ -109,14 +111,15 @@ public class PickUpScript : MonoBehaviour
     }
     void PickUpObject(GameObject pickUpObj)
     {
-        if (pickUpObj.GetComponent<Rigidbody>()) //make sure the object has a RigidBody
+        if (pickUpObj.GetComponent<Rigidbody>()) // to make sure the object has a RigidBody
         {
             heldObj = pickUpObj; //assign heldObj to the object that was hit by the raycast (no longer == null)
-            heldObjRb = pickUpObj.GetComponent<Rigidbody>(); //assign Rigidbody
+            heldObjRb = pickUpObj.GetComponent<Rigidbody>(); 
             heldObjRb.isKinematic = true;
             heldObjRb.transform.parent = holdPos.transform; //parent object to holdposition
             heldObj.layer = LayerNumber; //change the object layer to the holdLayer
-            //make sure object doesnt collide with player, it can cause weird bugs
+            
+
             Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), true);
         }
     }
@@ -142,22 +145,18 @@ public class PickUpScript : MonoBehaviour
 
            
                 
-            //disable player being able to look around
-            //mouseLookScript.verticalSensitivity = 0f;
-            //mouseLookScript.lateralSensitivity = 0f;
+
 
             float XaxisRotation = Input.GetAxis("Mouse X") * rotationSensitivity;
             float YaxisRotation = Input.GetAxis("Mouse Y") * rotationSensitivity;
            
-            //rotate the object depending on mouse X-Y Axis
+            
             heldObj.transform.Rotate(Vector3.down, XaxisRotation);
             heldObj.transform.Rotate(Vector3.right, YaxisRotation);
         }
         else
         {
-            //re-enable player being able to look around
-            //mouseLookScript.verticalSensitivity = originalvalue;
-            //mouseLookScript.lateralSensitivity = originalvalue;
+           
             canDrop = true;
         }
     }
@@ -178,12 +177,12 @@ public class PickUpScript : MonoBehaviour
         //RaycastAll returns array of all colliders hit within the cliprange
         RaycastHit[] hits;
         hits = Physics.RaycastAll(transform.position, transform.TransformDirection(Vector3.forward), clipRange);
-        //if the array length is greater than 1, meaning it has hit more than just the object we are carrying
+       
         if (hits.Length > 1)
         {
             //change object position to camera position 
             heldObj.transform.position = transform.position + new Vector3(0f, -0.5f, 0f); //offset slightly downward to stop object dropping above player 
-            //if your player is small, change the -0.5f to a smaller number (in magnitude) ie: -0.1f
+            
         }
     }
 }

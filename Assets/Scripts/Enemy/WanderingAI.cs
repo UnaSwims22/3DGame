@@ -2,6 +2,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 using System.Collections;
 
+//Title: Creating wandering AI
+//Author:Hocking, J.
+//Date: 2015
+//Code Version:
+//Availability: Unity in Action (Textbook)
+
 public class WanderingAI : MonoBehaviour
 {
     [SerializeField] 

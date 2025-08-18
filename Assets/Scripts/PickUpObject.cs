@@ -1,5 +1,10 @@
 using UnityEngine;
 
+
+//Title: Creating FPControls
+//Author: Hayes, A.
+//Code Version: 2.5
+//Availability: Ulwazi
 public class PickUpObject : MonoBehaviour
 {
     private Rigidbody rb;

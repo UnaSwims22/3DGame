@@ -34,7 +34,9 @@ public class PlayerCharacter : MonoBehaviour
         if (_isDead) return;
 
         _isDead = true;
-       
+
+        GameManager.Instance.ShowGameOver();
+
         Debug.Log("Player has died!");
         gameOverManager.ShowGameOver();   //Show game over UI
 

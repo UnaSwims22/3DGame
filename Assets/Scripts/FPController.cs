@@ -2,6 +2,11 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 
 using UnityEngine.InputSystem;
+
+//Title: Creating FPControls
+//Author: Hayes, A.
+//Code Version: 2.5
+//Availability: Ulwazi
 public class FPController : MonoBehaviour
 {
     [Header("Movement Settings")]

@@ -1,6 +1,12 @@
 using Unity.Mathematics;
 using UnityEngine;
 using System.Collections;
+
+//Title: Creating a rayGun
+//Author:Hocking, J.
+//Date: 2015
+//Code Version:
+//Availability: Unity in Action (Textbook)
 public class RayShooter : MonoBehaviour
 {
     private Camera _camera;

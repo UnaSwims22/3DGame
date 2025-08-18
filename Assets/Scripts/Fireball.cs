@@ -1,6 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
+//Title: Creating AI projectiles
+//Author:Hocking, J.
+//Date: 2015
+//Code Version:
+//Availability: Unity in Action (Textbook)
 public class Fireball : MonoBehaviour
 {
     public float speed = 10.0f;
