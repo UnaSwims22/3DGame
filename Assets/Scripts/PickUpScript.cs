@@ -32,7 +32,7 @@ public class PickUpScript : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E)) 
+        if (Input.GetKeyDown(KeyCode.E)) // "E" is used to to pick up objects
         {
             if (heldObj == null) //if currently not holding anything
             {
@@ -40,7 +40,7 @@ public class PickUpScript : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, pickUpRange))
                 {
-                    //make sure pickup tag is attached
+                    // pickup tag is attached
                     if (hit.transform.gameObject.tag == "canPickUp")
                     {
                         //pass in object hit into the PickUpObject function
@@ -57,11 +57,49 @@ public class PickUpScript : MonoBehaviour
                 }
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.JoystickButton5)) //right shoulder on gamepad is used to pick up objects
+        {
+            if (heldObj == null) //if currently not holding anything
+            {
+                //perform raycast to check if player is looking at object within pickuprange
+                RaycastHit hit;
+                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, pickUpRange))
+                {
+                    // pickup tag is attached
+                    if (hit.transform.gameObject.tag == "canPickUp")
+                    {
+                        //pass in object hit into the PickUpObject function
+                        PickUpObject(hit.transform.gameObject);
+                    }
+                }
+            }
+            else
+            {
+                if (canDrop == true)
+                {
+                    StopClipping(); //prevents object from clipping through walls
+                    DropObject();
+                }
+            }
+        }
+
         if (heldObj != null) //if player is holding object
         {
             MoveObject(); //keep object position at holdPos
             RotateObject();
-            if (Input.GetKeyDown(KeyCode.Mouse0) && canDrop == true) //Mous0 (leftclick) is used to throw, change this if you want another button to be used)
+            if (Input.GetKeyDown(KeyCode.Mouse1) && canDrop == true) //mouse right click used to throw
+            {
+                StopClipping();
+                ThrowObject();
+            }
+
+        }
+        if (heldObj != null) //if player is holding object
+        {
+            MoveObject(); //keep object position at holdPos
+            RotateObject();
+            if (Input.GetKeyDown(KeyCode.JoystickButton4) && canDrop == true) //left shoulder on gamepad is used to throw
             {
                 StopClipping();
                 ThrowObject();
@@ -110,6 +148,7 @@ public class PickUpScript : MonoBehaviour
 
             float XaxisRotation = Input.GetAxis("Mouse X") * rotationSensitivity;
             float YaxisRotation = Input.GetAxis("Mouse Y") * rotationSensitivity;
+           
             //rotate the object depending on mouse X-Y Axis
             heldObj.transform.Rotate(Vector3.down, XaxisRotation);
             heldObj.transform.Rotate(Vector3.right, YaxisRotation);
