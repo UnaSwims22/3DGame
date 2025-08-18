@@ -16,17 +16,21 @@ public class PlayerCharacter : MonoBehaviour
             gameOverUI.SetActive(false);
     }
 
+    public DamageFlash damageFlash;
+
     public void Hurt (int damage)   //health decreases
     {
-        if (_isDead) return;
-
         _health -= damage;
         Debug.Log("Health: " + _health);
 
-        if (_health <=0)
+        if (damageFlash != null)
+            damageFlash.Flash();
+
+        if (_health <= 0)
         {
             Die();
         }
+
     }
 
     private void Die()
