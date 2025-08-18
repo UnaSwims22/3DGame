@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerCharacter : MonoBehaviour
 {
+    public GameOverManager gameOverManager;
     private int _health;
     private bool _isDead = false;    //player will only "die" once
 
@@ -33,16 +34,9 @@ public class PlayerCharacter : MonoBehaviour
         if (_isDead) return;
 
         _isDead = true;
+       
         Debug.Log("Player has died!");
-
-        Destroy(gameObject);
-
-        var controller = GetComponent<FPController>();
-        if (controller != null)
-            controller.enabled = false;
-
-        if (gameOverUI != null)
-            gameOverUI.SetActive(true);
+        gameOverManager.ShowGameOver();   //Show game over UI
 
     }
 }
