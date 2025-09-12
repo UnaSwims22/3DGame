@@ -17,7 +17,7 @@ public class RayShooter : MonoBehaviour
     {
         _camera = GetComponent<Camera>();
         controls = new Controls();
-        ;
+       
     }
 
 
@@ -87,11 +87,38 @@ public class RayShooter : MonoBehaviour
 
     private IEnumerator SphereIndicator(Vector3 pos)
     {
+
+        // Creating the sphere indicator
         GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         sphere.transform.position = pos;
-        yield return new WaitForSeconds(1);
+
+
+        // Create a GameObject to hold the LineRenderer
+        GameObject lineObj = new GameObject("LaserBeam");
+        LineRenderer lineRenderer = lineObj.AddComponent<LineRenderer>();
+
+        // Configure LineRenderer
+        lineRenderer.positionCount = 2; // start + end
+        lineRenderer.SetPosition(0, _camera.transform.position); // start from camera (or gun)
+        lineRenderer.SetPosition(1, pos); // end at hit position
+
+        // Style the line (adjust to taste)
+        lineRenderer.startWidth = 0.05f;
+        lineRenderer.endWidth = 0.05f;
+
+        // Use a simple material (optional: assign a laser material in Inspector)
+        lineRenderer.material = new Material(Shader.Find("Unlit/Color"));
+        lineRenderer.material.color = Color.red;
+
+        // Keep beam for 0.1 seconds to simulate a "projectile laser"
+        yield return new WaitForSeconds(0.1f);
+        Destroy(lineObj);
+
+        // Keep sphere for 1 second as before
+        yield return new WaitForSeconds(0.9f);
         Destroy(sphere);
     }
+ 
 
     void OnGUI()
     {

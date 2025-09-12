@@ -47665,7 +47665,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 56.05
+  m_fontSize: 34.15
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -108522,12 +108522,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1162667381}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.9997511, z: -0, w: -0.022310054}
-  m_LocalPosition: {x: 0.366, y: 0.47824007, z: 0.399}
-  m_LocalScale: {x: 0.26303208, y: 0.1726978, z: 1.1716883}
+  m_LocalRotation: {x: -0, y: -0.99975115, z: -0, w: -0.022310054}
+  m_LocalPosition: {x: 0.35600004, y: -0.4217599, z: 0.359}
+  m_LocalScale: {x: 0.26303205, y: 0.17269781, z: 1.1716881}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3646332354051764691}
+  m_Father: {fileID: 7426618582898144621}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1162667383
 BoxCollider:
@@ -194541,7 +194541,7 @@ RectTransform:
   m_GameObject: {fileID: 2104857093}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 8.5298, y: 4.9101, z: 1}
+  m_LocalScale: {x: 44.36627, y: 25.539026, z: 5.201325}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1185860719}
@@ -197830,15 +197830,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7204097776958184510}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.03387915, z: -0, w: -0.99942595}
-  m_LocalPosition: {x: 30.75, y: 1.26, z: 26.34}
+  m_LocalRotation: {x: -0, y: 0.99987346, z: -0, w: -0.01591143}
+  m_LocalPosition: {x: 30.751719, y: 1.26, z: 26.339542}
   m_LocalScale: {x: 1.2546, y: 1.5055201, z: 1.2546}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7426618582898144621}
-  - {fileID: 1162667382}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 356.117, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 181.823, z: 0}
 --- !u!20 &4396061513370385619
 Camera:
   m_ObjectHideFlags: 0
@@ -198015,6 +198014,7 @@ Transform:
   m_Children:
   - {fileID: 7166466157525282904}
   - {fileID: 396670233}
+  - {fileID: 1162667382}
   m_Father: {fileID: 3646332354051764691}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &7626563680196536598
