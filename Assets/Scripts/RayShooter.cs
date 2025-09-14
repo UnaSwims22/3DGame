@@ -9,22 +9,24 @@ using System.Collections;
 //Availability: Unity in Action (Textbook)
 public class RayShooter : MonoBehaviour
 {
-    private Camera _camera;
-    private Controls controls;
+    [Header("RayGun References")]
+    public Camera _camera;
+    public Transform gunTransform;
+    public Transform firePoint;      // Empty GameObject at muzzle
 
-
-    void Awake()
-    {
-        _camera = GetComponent<Camera>();
-        controls = new Controls();
-       
-    }
-
+    [Header("Laser Settings")]
+    public float beamWidth = 0.05f;
+    public Color beamColor = Color.red;
+    public float travelTime = 0.2f;  // Time for beam to reach target
+    public float beamHoldTime = 0.05f; // Time beam stays fully visible
 
     void Start()
     {
-        _camera = GetComponent<Camera>();
-
+        if (_camera == null)
+        {
+            _camera = GetComponent<Camera>();
+        }
+        
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -34,55 +36,88 @@ public class RayShooter : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Vector3 point = new Vector3(_camera.pixelWidth / 2, _camera.pixelHeight / 2, 0);
-            Ray ray = _camera.ScreenPointToRay(point);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                StartCoroutine(SphereIndicator(hit.point));
-            }
-            if (Physics.Raycast(ray, out hit))
-            {
-                GameObject hitObject = hit.transform.gameObject;
-                ReactiveTarget target = hitObject.GetComponent<ReactiveTarget>();
-                if (target != null)
-                {
-                    target.ReactToHit();
-
-                }
-                else
-                {
-                    StartCoroutine(SphereIndicator(hit.point));
-                }
-            }
+            FireRay();
         }
 
         if (Input.GetKeyDown(KeyCode.JoystickButton1))
         {
-            Vector3 point = new Vector3(_camera.pixelWidth / 2, _camera.pixelHeight / 2, 0);
-            Ray ray = _camera.ScreenPointToRay(point);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                StartCoroutine(SphereIndicator(hit.point));
-            }
-            if (Physics.Raycast(ray, out hit))
-            {
-                GameObject hitObject = hit.transform.gameObject;
-                ReactiveTarget target = hitObject.GetComponent<ReactiveTarget>();
-                if (target != null)
-                {
-                    target.ReactToHit();
-
-                }
-                else
-                {
-                    StartCoroutine(SphereIndicator(hit.point));
-                }
-            }
+            FireRay();
         }
     }
 
+    private void FireRay()
+    {
+        Vector3 point = new Vector3(_camera.pixelWidth / 2, _camera.pixelHeight / 2, 0);
+        Ray ray = _camera.ScreenPointToRay(point);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            // Rotate gun to face hit point
+            if (gunTransform != null)
+            {
+                Vector3 lookDirection = hit.point - gunTransform.position;
+                gunTransform.rotation = Quaternion.LookRotation(lookDirection);
+            }
+
+            // Start visual effects
+            StartCoroutine(ShootLaser(hit.point));
+
+            // Target reaction (optional gameplay logic)
+            GameObject hitObject = hit.transform.gameObject;
+            ReactiveTarget target = hitObject.GetComponent<ReactiveTarget>();
+            if (target != null)
+            {
+                target.ReactToHit();
+            }
+        }
+    }
+ 
+
+    private IEnumerator ShootLaser(Vector3 hitPos)
+    {
+        // Decide start position (firePoint or fallback to camera)
+        Vector3 startPos = firePoint != null ? firePoint.position : _camera.transform.position;
+
+        // Create LineRenderer dynamically
+        GameObject lineObj = new GameObject("LaserBeam");
+        LineRenderer lineRenderer = lineObj.AddComponent<LineRenderer>();
+
+        // Configure LineRenderer
+        lineRenderer.positionCount = 2;
+        lineRenderer.startWidth = beamWidth;
+        lineRenderer.endWidth = beamWidth;
+        lineRenderer.material = new Material(Shader.Find("Unlit/Color"));
+        lineRenderer.material.color = beamColor;
+
+        // Animate beam travel
+        float elapsed = 0f;
+        while (elapsed < travelTime)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / travelTime);
+            Vector3 currentPos = Vector3.Lerp(startPos, hitPos, t);
+
+            lineRenderer.SetPosition(0, startPos);
+            lineRenderer.SetPosition(1, currentPos);
+
+            yield return null;
+        }
+
+        // Hold beam briefly at full length
+        lineRenderer.SetPosition(0, startPos);
+        lineRenderer.SetPosition(1, hitPos);
+        yield return new WaitForSeconds(beamHoldTime);
+
+        // Destroy beam
+        Destroy(lineObj);
+
+        // Show sphere impact AFTER beam arrives
+        GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        sphere.transform.position = hitPos;
+        yield return new WaitForSeconds(1f);
+        Destroy(sphere);
+    }
 
 
     private IEnumerator SphereIndicator(Vector3 pos)
@@ -102,7 +137,7 @@ public class RayShooter : MonoBehaviour
         lineRenderer.SetPosition(0, _camera.transform.position); // start from camera (or gun)
         lineRenderer.SetPosition(1, pos); // end at hit position
 
-        // Style the line (adjust to taste)
+        // Styling the line
         lineRenderer.startWidth = 0.05f;
         lineRenderer.endWidth = 0.05f;
 
