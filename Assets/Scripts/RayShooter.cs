@@ -97,7 +97,13 @@ public class RayShooter : MonoBehaviour
 
             StartCoroutine(ShootLaser(hitInfo.point));
 
-            // Target reaction (
+        Shootable shootable = hitInfo.transform.GetComponent<Shootable>();
+        if (shootable != null)
+        {
+            shootable.ReactToHit(hitInfo.point);
+        }
+
+            // Target reaction 
             GameObject hitObject = hitInfo.transform.gameObject;
             ReactiveTarget target = hitObject.GetComponent<ReactiveTarget>();
             if (target != null)
@@ -155,12 +161,12 @@ public class RayShooter : MonoBehaviour
     private IEnumerator SphereIndicator(Vector3 pos)
     {
 
-        // Creating the sphere indicator
+        // sphere indicator
         GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         sphere.transform.position = pos;
 
 
-        // Create a GameObject to hold the LineRenderer
+        
         GameObject lineObj = new GameObject("LaserBeam");
         LineRenderer lineRenderer = lineObj.AddComponent<LineRenderer>();
 
@@ -173,7 +179,7 @@ public class RayShooter : MonoBehaviour
         lineRenderer.startWidth = 0.05f;
         lineRenderer.endWidth = 0.05f;
 
-        // Use a simple material 
+         
         lineRenderer.material = new Material(Shader.Find("Unlit/Color"));
         lineRenderer.material.color = Color.red;
 
