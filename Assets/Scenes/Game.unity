@@ -40617,7 +40617,6 @@ Transform:
   m_LocalScale: {x: 1.2546, y: 1.5055201, z: 1.2546}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2128180382}
   - {fileID: 1039271964}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 181.823, z: 0}
@@ -100428,6 +100427,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 777178518}
+  - {fileID: 2128180382}
   m_Father: {fileID: 482867486}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1039271965
@@ -197551,13 +197551,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2128180381}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.9997511, z: -0, w: -0.022310052}
-  m_LocalPosition: {x: 0.51, y: 0.47824007, z: 0.41}
-  m_LocalScale: {x: 0.26303214, y: 0.17269781, z: 1.1716884}
+  m_LocalRotation: {x: -0, y: -0.99975115, z: -0, w: -0.022310052}
+  m_LocalPosition: {x: -0.86999965, y: -0.18675995, z: 0.49000043}
+  m_LocalScale: {x: 0.26303208, y: 0.17269781, z: 1.1716881}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1180641191}
-  m_Father: {fileID: 482867486}
+  m_Father: {fileID: 1039271964}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2128180383
 MonoBehaviour:
@@ -197574,10 +197574,13 @@ MonoBehaviour:
   _camera: {fileID: 1039271967}
   gunTransform: {fileID: 2128180382}
   firePoint: {fileID: 1180641191}
-  beamWidth: 0.05
+  projectileSpeed: 30
+  beamWidth: 0.15
   beamColor: {r: 1, g: 0, b: 0, a: 1}
   travelTime: 0.2
   beamHoldTime: 0.05
+  impactEffectPrefab: {fileID: 0}
+  fireballPrefab: {fileID: 0}
 --- !u!65 &2128180384
 BoxCollider:
   m_ObjectHideFlags: 0
