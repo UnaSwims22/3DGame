@@ -1,9 +1,10 @@
 using Unity.Mathematics;
 using UnityEngine;
 using System.Collections;
+using UnityEditor.PackageManager;
 
-//Title: Creating a rayGun
-//Author:Hocking, J.
+//Title: Creating a rayGun (Optimized)
+//Author: Based on Hocking, J.
 //Date: 2015
 //Code Version:
 //Availability: Unity in Action (Textbook)
@@ -42,6 +43,8 @@ public class RayShooter : MonoBehaviour
 
     private void Update()
     {
+        AimGunAtCrosshair();
+        
         if (Input.GetMouseButtonDown(0))
         {
             FireRay();
@@ -51,6 +54,22 @@ public class RayShooter : MonoBehaviour
         {
             FireRay();
         }
+    }
+
+    private void AimGunAtCrosshair()
+    {
+        // Rotate gun to face hit point
+        if (gunTransform != null)
+        {
+            Vector3 point = new Vector3(_camera.pixelWidth / 2, _camera.pixelHeight / 2, 0);
+            Ray cameraRay = _camera.ScreenPointToRay(point);
+
+            Vector3 aimPoint = cameraRay.GetPoint(beamRange);
+
+            Vector3 lookDirection = (aimPoint - gunTransform.position).normalized;
+            gunTransform.rotation = Quaternion.LookRotation(lookDirection);
+        }
+
     }
 
     private void FireRay()
@@ -74,7 +93,7 @@ public class RayShooter : MonoBehaviour
         //  direction from gun muzzle to target point
         Vector3 beamDirection = (targetPoint - firePoint.position).normalized;
 
-       
+
         {
             StartCoroutine(SphereIndicator(targetPoint));
 
@@ -89,51 +108,46 @@ public class RayShooter : MonoBehaviour
                 }
             }
 
-            // Rotate gun to face hit point
-            if (gunTransform != null)
+            StartCoroutine(ShootLaser(targetPoint));
+
+            if (hitInfo.collider != null)
             {
-                Vector3 lookDirection = hitInfo.point - gunTransform.position;
-                gunTransform.rotation = Quaternion.LookRotation(lookDirection);
+                Rigidbody rb = hitInfo.collider.attachedRigidbody;
+                if (rb != null)
+                {
+                    rb.AddForce(cameraRay.direction * beamForce, ForceMode.Impulse);
+                }
+
+                BreakableSupport support = hitInfo.collider.GetComponent<BreakableSupport>();
+                if (support != null)
+                {
+                    support.Break();
+                }
+
+                Enemy enemy = hitInfo.collider.GetComponent<Enemy>();
+                if (enemy != null)
+                {
+                    enemy.Stun();
+                }
+
+
+                HandleHit(hitInfo);
+
+                Shootable shootable = hitInfo.transform.GetComponent<Shootable>();
+                if (shootable != null)
+                {
+                    shootable.ReactToHit(hitInfo.point);
+                }
+
+                // Target reaction 
+                GameObject hitObject = hitInfo.transform.gameObject;
+                ReactiveTarget target = hitObject.GetComponent<ReactiveTarget>();
+                if (target != null)
+                {
+                    target.ReactToHit();
+                }
+
             }
-
-
-            StartCoroutine(ShootLaser(hitInfo.point));
-
-            Rigidbody rb = hitInfo.collider.attachedRigidbody;
-            if (rb != null)
-            {
-                rb.AddForce(cameraRay.direction * beamForce, ForceMode.Impulse);
-            }
-
-            BreakableSupport support = hitInfo.collider.GetComponent<BreakableSupport>();
-            if (support != null)
-            {
-                support.Break();
-            }
-
-            Enemy enemy = hitInfo.collider.GetComponent<Enemy>();
-            if (enemy != null)
-            {
-                enemy.Stun();
-            }
-
-
-            HandleHit(hitInfo);
-
-            Shootable shootable = hitInfo.transform.GetComponent<Shootable>();
-            if (shootable != null)
-            {
-                shootable.ReactToHit(hitInfo.point);
-            }
-
-            // Target reaction 
-            GameObject hitObject = hitInfo.transform.gameObject;
-            ReactiveTarget target = hitObject.GetComponent<ReactiveTarget>();
-            if (target != null)
-            {
-                target.ReactToHit();
-            }
-
         }
     }
 
@@ -174,8 +188,8 @@ public class RayShooter : MonoBehaviour
 
     private IEnumerator ShootLaser(Vector3 hitPos)
     {
-        
-        Vector3 startPos = firePoint != null ? firePoint.position : _camera.transform.position;
+
+        Vector3 startPos = firePoint.position;
 
         
         GameObject lineObj = new GameObject("LaserBeam");
@@ -202,7 +216,7 @@ public class RayShooter : MonoBehaviour
             yield return null;
         }
 
-        // Hold beam briefly at full length
+        // Hold beam for a moment
         lineRenderer.SetPosition(0, startPos);
         lineRenderer.SetPosition(1, hitPos);
         yield return new WaitForSeconds(beamHoldTime);
@@ -232,7 +246,7 @@ public class RayShooter : MonoBehaviour
 
         // Configure LineRenderer
         lineRenderer.positionCount = 2; // start + end
-        lineRenderer.SetPosition(0, _camera.transform.position); // start from camera (or gun)
+        lineRenderer.SetPosition(0, firePoint.position); // start from camera (or gun)
         lineRenderer.SetPosition(1, pos); // end at hit position
 
         // Styling the line
@@ -248,7 +262,7 @@ public class RayShooter : MonoBehaviour
         Destroy(lineObj);
 
         
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.01f);
         Destroy(sphere);
     }
  
