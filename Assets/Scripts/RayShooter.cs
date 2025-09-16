@@ -21,9 +21,10 @@ public class RayShooter : MonoBehaviour
     public Color beamColor = Color.red;
     public float travelTime = 0.2f;  // Time for beam to reach target
     public float beamHoldTime = 0.05f; // Time beam stays visible
+    public float beamRange = 100f;
+    public float beamForce = 300f;
 
     [Header("Visual Effects")]
-    public GameObject impactEffectPrefab;
     public GameObject fireballPrefab;
 
     void Start()
@@ -56,7 +57,7 @@ public class RayShooter : MonoBehaviour
     {
         Vector3 point = new Vector3(_camera.pixelWidth / 2, _camera.pixelHeight / 2, 0);
         Ray cameraRay = _camera.ScreenPointToRay(point);
-        
+
         RaycastHit hitInfo;
         Vector3 targetPoint;
 
@@ -66,14 +67,14 @@ public class RayShooter : MonoBehaviour
         }
         else
         {
-            
+
             targetPoint = cameraRay.GetPoint(100f);
         }
 
         //  direction from gun muzzle to target point
         Vector3 beamDirection = (targetPoint - firePoint.position).normalized;
 
-        if (impactEffectPrefab = null)
+       
         {
             StartCoroutine(SphereIndicator(targetPoint));
 
@@ -81,11 +82,12 @@ public class RayShooter : MonoBehaviour
             {
                 Vector3 direction = (targetPoint - firePoint.position).normalized;
                 GameObject projectile = Instantiate(fireballPrefab, firePoint.position, Quaternion.LookRotation(direction));
-                Rigidbody rb = projectile.GetComponent<Rigidbody>();
-                if (rb != null)
-                    rb.linearVelocity = direction * projectileSpeed;
+                Rigidbody br = projectile.GetComponent<Rigidbody>();
+                if (br != null)
+                {
+                    br.linearVelocity = direction * projectileSpeed;
+                }
             }
-        }
 
             // Rotate gun to face hit point
             if (gunTransform != null)
@@ -97,15 +99,32 @@ public class RayShooter : MonoBehaviour
 
             StartCoroutine(ShootLaser(hitInfo.point));
 
-        HandleHit(hitInfo);
+            Rigidbody rb = hitInfo.collider.attachedRigidbody;
+            if (rb != null)
+            {
+                rb.AddForce(cameraRay.direction * beamForce, ForceMode.Impulse);
+            }
+
+            BreakableSupport support = hitInfo.collider.GetComponent<BreakableSupport>();
+            if (support != null)
+            {
+                support.Break();
+            }
+
+            Enemy enemy = hitInfo.collider.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.Stun();
+            }
 
 
+            HandleHit(hitInfo);
 
-        Shootable shootable = hitInfo.transform.GetComponent<Shootable>();
-        if (shootable != null)
-        {
-            shootable.ReactToHit(hitInfo.point);
-        }
+            Shootable shootable = hitInfo.transform.GetComponent<Shootable>();
+            if (shootable != null)
+            {
+                shootable.ReactToHit(hitInfo.point);
+            }
 
             // Target reaction 
             GameObject hitObject = hitInfo.transform.gameObject;
@@ -116,6 +135,7 @@ public class RayShooter : MonoBehaviour
             }
 
         }
+    }
 
     private void HandleHit(RaycastHit hitInfo)
     {
@@ -147,7 +167,7 @@ public class RayShooter : MonoBehaviour
             }
             rb.useGravity = true;
             rb.isKinematic = false;
-            Destroy(hitObject, 0.8f);
+            Destroy(hitObject, 0.6f);
         }
 
     }
