@@ -97,6 +97,10 @@ public class RayShooter : MonoBehaviour
 
             StartCoroutine(ShootLaser(hitInfo.point));
 
+        HandleHit(hitInfo);
+
+
+
         Shootable shootable = hitInfo.transform.GetComponent<Shootable>();
         if (shootable != null)
         {
@@ -110,7 +114,43 @@ public class RayShooter : MonoBehaviour
             {
                 target.ReactToHit();
             }
+
         }
+
+    private void HandleHit(RaycastHit hitInfo)
+    {
+        GameObject hitObject = hitInfo.collider.gameObject;
+
+        
+        if (hitObject.CompareTag("Destructible"))
+        {
+            // Trigger physics so object falls
+            Rigidbody rb = hitObject.GetComponent<Rigidbody>();
+            if (rb == null)
+            {
+                rb = hitObject.AddComponent<Rigidbody>();
+            }
+            rb.useGravity = true;
+            rb.isKinematic = false;
+
+         
+            Destroy(hitObject, 2f);
+        }
+
+        // pillar, make it collapse 
+        if (hitObject.CompareTag("Pillar"))
+        {
+            Rigidbody rb = hitObject.GetComponent<Rigidbody>();
+            if (rb == null)
+            {
+                rb = hitObject.AddComponent<Rigidbody>();
+            }
+            rb.useGravity = true;
+            rb.isKinematic = false;
+            Destroy(hitObject, 0.8f);
+        }
+
+    }
 
     private IEnumerator ShootLaser(Vector3 hitPos)
     {

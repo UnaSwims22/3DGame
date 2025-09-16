@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DestructiblePillar : Shootable
 {
-    public float health = 50f;
+    public float health = 25f;
     public Rigidbody rb;
     public GameObject fracturedVersion;
 
