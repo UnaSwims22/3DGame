@@ -170,7 +170,7 @@ public class RayShooter : MonoBehaviour
             rb.isKinematic = false;
 
 
-            Destroy(hitObject, 2f);
+            Destroy(hitObject, .5f);
         }
 
         // pillar, make it collapse 
@@ -183,7 +183,7 @@ public class RayShooter : MonoBehaviour
             }
             rb.useGravity = true;
             rb.isKinematic = false;
-            Destroy(hitObject, 0.6f);
+            Destroy(hitObject, 1.6f);
         }
 
     }
@@ -269,15 +269,7 @@ public class RayShooter : MonoBehaviour
     }
 
 
-    void OnGUI()
-    {
-        int size = 12;
-        float posX = _camera.pixelWidth / 2 - size / 4;
-        float posY = _camera.pixelHeight / 2 - size / 2;
-        GUI.Label(new Rect(posX, posY, size, size), "*");
-
-
-    }
+    
 }
 
 
