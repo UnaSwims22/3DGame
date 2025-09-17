@@ -12,6 +12,7 @@ public class RayShooter : MonoBehaviour
 {
     [Header("RayGun References")]
     public Camera _camera;
+    public CrosshairTarget crosshairTarget;
     private Controls controls;
     public Transform gunTransform;
     public Transform firePoint;
