@@ -1,16 +1,30 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CrosshairTarget : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public Camera _camera;
+    public Image crosshair;
+    public float maxDistance = 100f;
+    public LayerMask aimLayerMask = Physics.DefaultRaycastLayers;
 
-    // Update is called once per frame
+    [HideInInspector]
+    public Vector3 aimPoint;
+
     void Update()
     {
-        
+        UpdateAimPoint();
+        UpdateCrosshairPosition();
+    }
+
+    void UpdateAimPoint()
+    {
+
+    }
+
+    void UpdateCrosshairPosition()
+    {
+
     }
 }
+    
