@@ -7,6 +7,8 @@ TagManager:
   - canPickUp
   - Destructible
   - Pillar
+  - Ground
+  - Enemy
   layers:
   - Default
   - TransparentFX

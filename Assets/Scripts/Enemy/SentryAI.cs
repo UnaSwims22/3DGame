@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class SentryAI : MonoBehaviour
 {
-    public Transform head;              // (turret head)
+    public Transform head;              // turret head
     public Transform firePoint;         // Where bullets spawn
     public GameObject projectilePrefab; // Bullet prefab
     public float rotationSpeed = 45f;   // Degrees per second
