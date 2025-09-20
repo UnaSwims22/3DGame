@@ -183,7 +183,7 @@ public class RayShooter : MonoBehaviour
             }
             rb.useGravity = true;
             rb.isKinematic = false;
-            Destroy(hitObject, 1.6f);
+            Destroy(hitObject, 1.0f);
         }
 
     }
@@ -264,7 +264,7 @@ public class RayShooter : MonoBehaviour
         Destroy(lineObj);
 
 
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(0.2f);
         Destroy(sphere);
     }
 
