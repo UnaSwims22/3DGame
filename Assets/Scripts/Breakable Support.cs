@@ -20,6 +20,11 @@ public class BreakableSupport : MonoBehaviour
                     rb.isKinematic = false;
                 }
 
+                
+                if (parentStructure.GetComponent<LedgeDestruction>() == null)
+                {
+                    parentStructure.AddComponent<LedgeDestruction>();
+                }
 
             }
         }
