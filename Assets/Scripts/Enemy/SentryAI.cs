@@ -3,35 +3,37 @@ using UnityEngine;
 
 public class SentryAI : MonoBehaviour
 {
+    [Header("Sentry Settings")]
     public Transform head;              // turret head
     public Transform firePoint;         // Where bullets spawn
-    public GameObject projectilePrefab; // Bullet prefab
+    public GameObject projectilePrefab;
+    public float projectileSpeed = 20f;
     public float rotationSpeed = 45f;   // Degrees per second
     public float detectionRange = 20f;
-    public float fireRate = 1f;
-    private float fireCooldown = 0f;
+    public float fireRate = 100f;
+    public float stunDuration = 4f;
+    public int maxHealth = 3;
+
     private Transform player;
+    private float fireCooldown = 0f;
+    private bool isStunned = false;
+    private int currentHealth;
+    private Rigidbody rb;
 
 
     void Start()
     {
-        GameObject playerGO = GameObject.FindGameObjectWithTag("Player");
-        if (playerGO != null)
-        {
-            player = playerGO.transform;
-        }
-        else
-        {
-            Debug.LogWarning("[SentryAI] No GameObject with tag 'Player' found in the scene. Make sure your player GameObject has the 'Player' tag.");
-        }
-        
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        currentHealth = maxHealth;
+        rb = GetComponent<Rigidbody>();
+
     }
 
     void Update()
     {
-        if (player == null) return;
+        if (player == null  || isStunned) return;
 
-        // Check if player is in range
+        // if player is in range
         float distance = Vector3.Distance(transform.position, player.position);
 
         if (distance <= detectionRange)
@@ -51,7 +53,7 @@ public class SentryAI : MonoBehaviour
         }
         else
         {
-           
+
             head.Rotate(Vector3.up, rotationSpeed * 0.25f * Time.deltaTime);
         }
     }
@@ -65,18 +67,59 @@ public class SentryAI : MonoBehaviour
 
         if (rb != null)
         {
-            rb.AddForce(firePoint.forward * 500f, ForceMode.Impulse);
+            rb.linearVelocity = firePoint.forward * 30f;
         }
 
         Destroy(projectile, 5f); // Auto-destroy projectile after 5 sec
     }
 
+    public void TakeDamage(int amount)
+    {
+        currentHealth -= amount;
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+        else
+        {
+            StartCoroutine(StunRoutine());
+        }
+    }
+
+    private System.Collections.IEnumerator StunRoutine()
+    {
+        isStunned = true;
+        yield return new WaitForSeconds(stunDuration);
+        isStunned = false;
+    }
+
+    void Die()
+    {
+        Debug.Log("Enemy killed!");
+        Destroy(gameObject);
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         // If the sentry itself hits the ground (ledge collapsed)
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") && collision.relativeVelocity.magnitude > 5f)
         {
+            Debug.Log("[SentryAI] Destroyed by ground impact!");
             Destroy(gameObject);
+        }
+
+        if ( collision.relativeVelocity.magnitude > 5f)
+        {
+            Die();
+        }
+
+        // Die if hit by a falling object 
+        if (collision.gameObject.CompareTag("Ledge"))
+        {
+            Debug.Log("[SentryAI] Crushed by ledge!");
+            Destroy(gameObject);
+
         }
     }
 }
+

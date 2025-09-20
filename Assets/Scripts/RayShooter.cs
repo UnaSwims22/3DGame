@@ -229,7 +229,7 @@ public class RayShooter : MonoBehaviour
         // Show sphere impact AFTER beam arrives
         GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         sphere.transform.position = hitPos;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.01f);
         Destroy(sphere);
     }
 
@@ -264,7 +264,7 @@ public class RayShooter : MonoBehaviour
         Destroy(lineObj);
 
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.01f);
         Destroy(sphere);
     }
 
