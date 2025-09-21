@@ -70,6 +70,10 @@ public class SentryAI : MonoBehaviour
             rb.linearVelocity = firePoint.forward * 20f;
         }
 
+        ProjectileDamage projScript = projectile.GetComponent<ProjectileDamage>();
+        if (projScript != null)
+            projScript.damage = 1;
+
         Destroy(projectile, 5f); // destroy projectile after 5 sec
     }
 

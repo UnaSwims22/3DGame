@@ -7,11 +7,26 @@ public class ProjectileDamage : MonoBehaviour
     public float projectileSpeed = 30f;
 
 
-    void Update()
+    private void Start()
     {
-        transform.Translate(0, 0, projectileSpeed * Time.deltaTime);
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic; // prevents fast projectiles from passing through
+        }
     }
-    
+
+    private void OnTriggerEnter(Collider other)
+    {
+        PlayerCharacter player = other.GetComponent<PlayerCharacter>();
+        if (player != null)
+        {
+            player.Hurt(damage);  // triggers DamageFlash and GameOver
+        }
+    }
+
+
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
