@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 14000a1a6efca984a9349dc3f606a91c, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -41056,13 +41056,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410087039}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.17238931, y: -0.91506326, z: -0.31494635, w: 0.18371129}
+  m_LocalRotation: {x: 0.30669868, y: -0.7008372, z: -0.1866687, w: 0.6163749}
   m_LocalPosition: {x: 186, y: 256, z: -69}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -30.867, y: -148.788, z: -30.157}
+  m_LocalEulerAnglesHint: {x: 6.686, y: -99.883, z: -41.646}
 --- !u!114 &410087042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46265,7 +46265,7 @@ Transform:
   m_GameObject: {fileID: 482867477}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.1564345, z: 0, w: 0.98768836}
-  m_LocalPosition: {x: 6.3, y: 1.2, z: -62.36}
+  m_LocalPosition: {x: 29.9, y: 1.52, z: 1.6}
   m_LocalScale: {x: 1.2546, y: 1.5055201, z: 1.2546}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -53941,7 +53941,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 41.5
+  m_fontSize: 59.25
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
