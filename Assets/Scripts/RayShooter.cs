@@ -29,6 +29,9 @@ public class RayShooter : MonoBehaviour
     public float beamRange = 100f;
     public float beamForce = 300f;
 
+    [Header("Projectile Apperance")]
+    public Material projectileMaterial;
+
 
     void Start()
     {
@@ -103,6 +106,15 @@ public class RayShooter : MonoBehaviour
             {
                 Vector3 direction = (targetPoint - firePoint.position).normalized;
                 GameObject projectile = Instantiate(fireballPrefab, firePoint.position, Quaternion.LookRotation(direction));
+
+                
+                if (projectileMaterial != null)
+                {
+                    Renderer rend = projectile.GetComponent<Renderer>();
+                    if (rend != null)
+                        rend.material = projectileMaterial;
+                }
+
                 Rigidbody br = projectile.GetComponent<Rigidbody>();
                 if (br != null)
                 {
@@ -241,7 +253,12 @@ public class RayShooter : MonoBehaviour
         GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         sphere.transform.position = pos;
 
-
+        if (projectileMaterial != null)
+        {
+            Renderer rend = sphere.GetComponent<Renderer>();
+            if (rend != null)
+                rend.material = projectileMaterial;
+        }
 
         GameObject lineObj = new GameObject("LaserBeam");
         LineRenderer lineRenderer = lineObj.AddComponent<LineRenderer>();
