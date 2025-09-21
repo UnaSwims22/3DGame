@@ -18,9 +18,10 @@ public class ProjectileDamage : MonoBehaviour
         {
             PlayerCharacter pc = collision.collider.GetComponent<PlayerCharacter>();
             if (pc != null)
+            {
                 pc.Hurt(damage);
-            Debug.Log("Player hit for " + damage + "damage!");
-            // subtract player health 
+                Debug.Log("Player hit for " + damage + "damage!");
+            } 
         }
 
         Destroy(this.gameObject);

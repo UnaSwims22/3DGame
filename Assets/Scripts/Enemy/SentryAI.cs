@@ -67,10 +67,10 @@ public class SentryAI : MonoBehaviour
 
         if (rb != null)
         {
-            rb.linearVelocity = firePoint.forward * 30f;
+            rb.linearVelocity = firePoint.forward * 20f;
         }
 
-        Destroy(projectile, 5f); // Auto-destroy projectile after 5 sec
+        Destroy(projectile, 5f); // destroy projectile after 5 sec
     }
 
     public void TakeDamage(int amount)

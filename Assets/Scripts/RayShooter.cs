@@ -107,7 +107,7 @@ public class RayShooter : MonoBehaviour
                 Vector3 direction = (targetPoint - firePoint.position).normalized;
                 GameObject projectile = Instantiate(fireballPrefab, firePoint.position, Quaternion.LookRotation(direction));
 
-                
+
                 if (projectileMaterial != null)
                 {
                     Renderer rend = projectile.GetComponent<Renderer>();
@@ -258,6 +258,13 @@ public class RayShooter : MonoBehaviour
             Renderer rend = sphere.GetComponent<Renderer>();
             if (rend != null)
                 rend.material = projectileMaterial;
+
+            // Boost emissive glow
+            Color baseEmission = projectileMaterial.GetColor("_EmissionColor");
+            Color boostedEmission = baseEmission * 5f;
+            rend.material.SetColor("_EmissionColor", boostedEmission);
+
+            StartCoroutine(PulseEmission(rend.material, baseEmission));
         }
 
         GameObject lineObj = new GameObject("LaserBeam");
@@ -285,8 +292,19 @@ public class RayShooter : MonoBehaviour
         Destroy(sphere);
     }
 
+    private IEnumerator PulseEmission(Material mat, Color baseEmission)
+    {
+        float t = 0f;
+        while (mat != null)
+        {
+            t += Time.deltaTime;
+            float intensity = Mathf.PingPong(t * 2f, 1f) + 1f; // range 1-2
+            mat.SetColor("_EmissionColor", baseEmission * intensity);
+            yield return null;
+        }
 
-    
+
+    }
 }
 
 
