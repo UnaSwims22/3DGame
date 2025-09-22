@@ -5,8 +5,8 @@ public class LightPulse : MonoBehaviour
 {
 
     [Header("Pulse Settings")]
-    public float minIntensity = 1f;     // Minimum light intensity
-    public float maxIntensity = 3f;     // Maximum light intensity
+    public float minIntensity = 3f;     // Minimum light intensity
+    public float maxIntensity = 5f;     // Maximum light intensity
     public float pulseSpeed = 2f;       // How fast the light pulses
     public bool randomizeStart = true;  // Randomize pulse phase per object
 
