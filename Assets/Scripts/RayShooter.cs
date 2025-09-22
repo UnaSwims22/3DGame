@@ -1,7 +1,7 @@
 using Unity.Mathematics;
 using UnityEngine;
 using System.Collections;
-using UnityEditor.PackageManager;
+
 
 //Title: Creating a rayGun (Optimized)
 //Author: Based on Hocking, J.
