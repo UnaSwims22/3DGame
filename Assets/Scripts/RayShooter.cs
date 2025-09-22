@@ -257,6 +257,7 @@ public class RayShooter : MonoBehaviour
         {
             Renderer rend = sphere.GetComponent<Renderer>();
             if (rend != null)
+            { 
                 rend.material = projectileMaterial;
 
             // Boost emissive glow
@@ -265,6 +266,8 @@ public class RayShooter : MonoBehaviour
             rend.material.SetColor("_EmissionColor", boostedEmission);
 
             StartCoroutine(PulseEmission(rend.material, baseEmission));
+                }
+
         }
 
         GameObject lineObj = new GameObject("LaserBeam");
