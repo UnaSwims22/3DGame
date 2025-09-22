@@ -46,6 +46,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Environmental FX
+    uniqueID: 4101499487
+    locked: 0
   m_RenderingLayers:
   - Default
   - Light Layer 1
