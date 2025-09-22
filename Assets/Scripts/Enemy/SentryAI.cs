@@ -58,6 +58,7 @@ public class SentryAI : MonoBehaviour
         }
     }
 
+
     void Shoot()
     {
         if (projectilePrefab == null) return;
@@ -90,11 +91,19 @@ public class SentryAI : MonoBehaviour
         }
     }
 
+    public void Stun()
+    {
+        if (!isStunned) // prevents restarting the stun every frame 
+            StartCoroutine(StunRoutine());
+    }
+
     private System.Collections.IEnumerator StunRoutine()
     {
         isStunned = true;
+        Debug.Log("[SentryAI] Stunned for " + stunDuration + " seconds!");
         yield return new WaitForSeconds(stunDuration);
         isStunned = false;
+        Debug.Log("[SentryAI] Recovered from stun.");
     }
 
     void Die()

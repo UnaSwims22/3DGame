@@ -126,6 +126,12 @@ public class RayShooter : MonoBehaviour
 
             if (hitInfo.collider != null)
             {
+                SentryAI sentry = hitInfo.collider.GetComponentInParent<SentryAI>();
+                if (sentry != null)
+                {
+                    sentry.Stun(); 
+                }
+
                 Rigidbody rb = hitInfo.collider.attachedRigidbody;
                 if (rb != null)
                 {
@@ -163,6 +169,8 @@ public class RayShooter : MonoBehaviour
 
             }
         }
+
+
     }
 
     private void HandleHit(RaycastHit hitInfo)
