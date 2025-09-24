@@ -16,8 +16,14 @@ public class PauseMenu : MonoBehaviour
                 Pause();
                     
         }
+
+        if (pauseMenuUI != null)
+        {
+            pauseMenuUI.SetActive(true);
+        }
+
     }
-     public void Pause()
+    public void Pause()
     {
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;  //freezes game

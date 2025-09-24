@@ -1,322 +1,134 @@
-using Unity.Mathematics;
 using UnityEngine;
 using System.Collections;
-
-
-//Title: Creating a rayGun (Optimized)
-//Author: Based on Hocking, J.
-//Date: 2015
-//Code Version:
-//Availability: Unity in Action (Textbook)
-
 
 public class RayShooter : MonoBehaviour
 {
     [Header("RayGun References")]
     public Camera _camera;
-    public CrosshairTarget crosshairTarget;
-    private Controls controls;
     public Transform gunTransform;
     public Transform firePoint;
     public GameObject fireballPrefab;
 
-    [Header("Projectile & Beam Settings")]
+    [Header("Beam Settings")]
     public float projectileSpeed = 30f;
     public float beamWidth = 0.05f;
     public Color beamColor = Color.red;
-    public float travelTime = 0.2f;  // Time for beam to reach target
-    public float beamHoldTime = 0.05f; // Time beam stays visible
+    public float travelTime = 0.2f;
+    public float beamHoldTime = 0.05f;
     public float beamRange = 100f;
     public float beamForce = 300f;
 
-    [Header("Projectile Apperance")]
+    [Header("Projectile Appearance")]
     public Material projectileMaterial;
-
 
     void Start()
     {
         if (_camera == null)
-        {
-            _camera = GetComponent<Camera>();
-            controls = new Controls();
-        }
+            _camera = Camera.main;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
-
-    private void Update()
+    void Update()
     {
-        AimGunAtCrosshair();
-
         if (Input.GetMouseButtonDown(0))
-        {
             FireRay();
-        }
-
-        if (Input.GetKeyDown(KeyCode.JoystickButton1))
-        {
-            FireRay();
-        }
     }
 
-    private void AimGunAtCrosshair()
+    void FireRay()
     {
-        // Rotate gun to face hit point
-        if (gunTransform != null)
+        Vector3 screenCenter = new Vector3(_camera.pixelWidth / 2, _camera.pixelHeight / 2, 0);
+        Ray cameraRay = _camera.ScreenPointToRay(screenCenter);
+
+        if (Physics.Raycast(cameraRay, out RaycastHit hitInfo, beamRange))
         {
-            Vector3 point = new Vector3(_camera.pixelWidth / 2, _camera.pixelHeight / 2, 0);
-            Ray cameraRay = _camera.ScreenPointToRay(point);
-
-            Vector3 aimPoint = cameraRay.GetPoint(beamRange);
-
-            Vector3 lookDirection = (aimPoint - gunTransform.position).normalized;
-            gunTransform.rotation = Quaternion.LookRotation(lookDirection);
-        }
-
-    }
-
-    private void FireRay()
-    {
-        Vector3 point = new Vector3(_camera.pixelWidth / 2, _camera.pixelHeight / 2, 0);
-        Ray cameraRay = _camera.ScreenPointToRay(point);
-
-        RaycastHit hitInfo;
-        Vector3 targetPoint;
-
-        if (Physics.Raycast(cameraRay, out hitInfo, 100f))
-        {
-            targetPoint = hitInfo.point;
+            StartCoroutine(FireVisuals(hitInfo.point));
+            HandleHit(hitInfo);
         }
         else
         {
-
-            targetPoint = cameraRay.GetPoint(100f);
+            Vector3 farPoint = cameraRay.GetPoint(beamRange);
+            StartCoroutine(FireVisuals(farPoint));
         }
 
-        //  direction from gun muzzle to target point
-        Vector3 beamDirection = (targetPoint - firePoint.position).normalized;
-
-
+        // Fire projectile
+        if (fireballPrefab != null)
         {
-            StartCoroutine(SphereIndicator(targetPoint));
+            GameObject proj = Instantiate(fireballPrefab, firePoint.position, Quaternion.LookRotation(cameraRay.direction));
+            if (projectileMaterial != null)
+                proj.GetComponent<Renderer>().material = projectileMaterial;
 
-            if (fireballPrefab != null && firePoint != null)
-            {
-                Vector3 direction = (targetPoint - firePoint.position).normalized;
-                GameObject projectile = Instantiate(fireballPrefab, firePoint.position, Quaternion.LookRotation(direction));
+            Rigidbody rb = proj.GetComponent<Rigidbody>();
+            if (rb != null)
+                rb.linearVelocity = cameraRay.direction * projectileSpeed;
 
-
-                if (projectileMaterial != null)
-                {
-                    Renderer rend = projectile.GetComponent<Renderer>();
-                    if (rend != null)
-                        rend.material = projectileMaterial;
-                }
-
-                Rigidbody br = projectile.GetComponent<Rigidbody>();
-                if (br != null)
-                {
-                    br.linearVelocity = direction * projectileSpeed;
-                }
-            }
-
-            StartCoroutine(ShootLaser(targetPoint));
-
-            if (hitInfo.collider != null)
-            {
-                SentryAI sentry = hitInfo.collider.GetComponentInParent<SentryAI>();
-                if (sentry != null)
-                {
-                    sentry.Stun(); 
-                }
-
-                Rigidbody rb = hitInfo.collider.attachedRigidbody;
-                if (rb != null)
-                {
-                    rb.AddForce(cameraRay.direction * beamForce, ForceMode.Impulse);
-                }
-
-                BreakableSupport support = hitInfo.collider.GetComponent<BreakableSupport>();
-                if (support != null)
-                {
-                    support.Break();
-                }
-
-                Enemy enemy = hitInfo.collider.GetComponent<Enemy>();
-                if (enemy != null)
-                {
-                    enemy.Stun();
-                }
-
-
-                HandleHit(hitInfo);
-
-                Shootable shootable = hitInfo.transform.GetComponent<Shootable>();
-                if (shootable != null)
-                {
-                    shootable.ReactToHit(hitInfo.point);
-                }
-
-                // Target reaction 
-                GameObject hitObject = hitInfo.transform.gameObject;
-                ReactiveTarget target = hitObject.GetComponent<ReactiveTarget>();
-                if (target != null)
-                {
-                    target.ReactToHit();
-                }
-
-            }
+            Destroy(proj, 3f); // Destroy projectile after 3 seconds
         }
-
-
     }
 
-    private void HandleHit(RaycastHit hitInfo)
+    private IEnumerator FireVisuals(Vector3 targetPos)
     {
-        GameObject hitObject = hitInfo.collider.gameObject;
-
-
-        if (hitObject.CompareTag("Destructible"))
-        {
-            // Trigger physics so object falls
-            Rigidbody rb = hitObject.GetComponent<Rigidbody>();
-            if (rb == null)
-            {
-                rb = hitObject.AddComponent<Rigidbody>();
-            }
-            rb.useGravity = true;
-            rb.isKinematic = false;
-
-
-            Destroy(hitObject, .5f);
-        }
-
-        // pillar, make it collapse 
-        if (hitObject.CompareTag("Pillar"))
-        {
-            Rigidbody rb = hitObject.GetComponent<Rigidbody>();
-            if (rb == null)
-            {
-                rb = hitObject.AddComponent<Rigidbody>();
-            }
-            rb.useGravity = true;
-            rb.isKinematic = false;
-            Destroy(hitObject, 1.0f);
-        }
-
-    }
-
-    private IEnumerator ShootLaser(Vector3 hitPos)
-    {
+        // Create a line for beam
+        GameObject beamObj = new GameObject("LaserBeam");
+        LineRenderer lr = beamObj.AddComponent<LineRenderer>();
+        lr.startWidth = beamWidth;
+        lr.endWidth = beamWidth;
+        lr.material = new Material(Shader.Find("Unlit/Color"));
+        lr.material.color = beamColor;
 
         Vector3 startPos = firePoint.position;
-
-
-        GameObject lineObj = new GameObject("LaserBeam");
-        LineRenderer lineRenderer = lineObj.AddComponent<LineRenderer>();
-
-        // LineRenderer configuration
-        lineRenderer.positionCount = 2;
-        lineRenderer.startWidth = beamWidth;
-        lineRenderer.endWidth = beamWidth;
-        lineRenderer.material = new Material(Shader.Find("Unlit/Color"));
-        lineRenderer.material.color = beamColor;
-
-        // Animating beam travel
         float elapsed = 0f;
+
         while (elapsed < travelTime)
         {
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / travelTime);
-            Vector3 currentPos = Vector3.Lerp(startPos, hitPos, t);
-
-            lineRenderer.SetPosition(0, startPos);
-            lineRenderer.SetPosition(1, currentPos);
-
+            lr.SetPosition(0, startPos);
+            lr.SetPosition(1, Vector3.Lerp(startPos, targetPos, t));
             yield return null;
         }
 
-        // Hold beam for a moment
-        lineRenderer.SetPosition(0, startPos);
-        lineRenderer.SetPosition(1, hitPos);
+        // Hold beam at full length
+        lr.SetPosition(0, startPos);
+        lr.SetPosition(1, targetPos);
         yield return new WaitForSeconds(beamHoldTime);
 
+        Destroy(beamObj);
 
-        Destroy(lineObj);
-
-        // Show sphere impact AFTER beam arrives
-        GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        sphere.transform.position = hitPos;
-        yield return new WaitForSeconds(0.01f);
-        Destroy(sphere);
-    }
-
-
-    private IEnumerator SphereIndicator(Vector3 pos)
-    {
-
-        // sphere indicator
-        GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        sphere.transform.position = pos;
-
+        // Optional: show small impact sphere at hit point
+        GameObject impact = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        impact.transform.position = targetPos;
         if (projectileMaterial != null)
-        {
-            Renderer rend = sphere.GetComponent<Renderer>();
-            if (rend != null)
-            { 
-                rend.material = projectileMaterial;
+            impact.GetComponent<Renderer>().material = projectileMaterial;
 
-            // Boost emissive glow
-            Color baseEmission = projectileMaterial.GetColor("_EmissionColor");
-            Color boostedEmission = baseEmission * 5f;
-            rend.material.SetColor("_EmissionColor", boostedEmission);
-
-            StartCoroutine(PulseEmission(rend.material, baseEmission));
-                }
-
-        }
-
-        GameObject lineObj = new GameObject("LaserBeam");
-        LineRenderer lineRenderer = lineObj.AddComponent<LineRenderer>();
-
-        // Configure LineRenderer
-        lineRenderer.positionCount = 2; // start + end
-        lineRenderer.SetPosition(0, firePoint.position); // start from camera (or gun)
-        lineRenderer.SetPosition(1, pos); // end at hit position
-
-        // Styling the line
-        lineRenderer.startWidth = 0.05f;
-        lineRenderer.endWidth = 0.05f;
-
-
-        lineRenderer.material = new Material(Shader.Find("Unlit/Color"));
-        lineRenderer.material.color = Color.red;
-
-
-        yield return new WaitForSeconds(0.1f);
-        Destroy(lineObj);
-
-
-        yield return new WaitForSeconds(0.01f);
-        Destroy(sphere);
+        Destroy(impact, 0.1f);
     }
 
-    private IEnumerator PulseEmission(Material mat, Color baseEmission)
+    private void HandleHit(RaycastHit hit)
     {
-        float t = 0f;
-        while (mat != null)
+        // Apply force
+        if (hit.rigidbody != null)
+            hit.rigidbody.AddForce(hit.normal * beamForce, ForceMode.Impulse);
+
+        // Destructible objects
+        if (hit.collider.CompareTag("Destructible") || hit.collider.CompareTag("Pillar"))
         {
-            t += Time.deltaTime;
-            float intensity = Mathf.PingPong(t * 2f, 1f) + 1f; // range 1-2
-            mat.SetColor("_EmissionColor", baseEmission * intensity);
-            yield return null;
+            Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
+            if (rb == null) rb = hit.collider.gameObject.AddComponent<Rigidbody>();
+            rb.isKinematic = false;
+            rb.useGravity = true;
+
+            Destroy(hit.collider.gameObject, hit.collider.CompareTag("Destructible") ? 0.5f : 1f);
         }
 
+        // Example: stun enemy
+        Enemy enemy = hit.collider.GetComponent<Enemy>();
+        if (enemy != null) enemy.Stun();
 
+        // Break supports
+        BreakableSupport support = hit.collider.GetComponent<BreakableSupport>();
+        if (support != null) support.Break();
     }
 }
-
-
 

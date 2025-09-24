@@ -10,9 +10,12 @@ public class SentryAI : MonoBehaviour
     public float projectileSpeed = 20f;
     public float rotationSpeed = 45f;   // Degrees per second
     public float detectionRange = 20f;
-    public float fireRate = 100f;
+    public float fireRate = 1f;
     public float stunDuration = 4f;
     public int maxHealth = 3;
+
+    [Header("Death Effects")]
+    public GameObject deathDustPrefab;
 
     private Transform player;
     private float fireCooldown = 0f;
@@ -31,51 +34,58 @@ public class SentryAI : MonoBehaviour
 
     void Update()
     {
-        if (player == null  || isStunned) return;
+        if (!this || !gameObject || head == null || player == null) return;
+        if (isStunned) return;
+
+
 
         // if player is in range
         float distance = Vector3.Distance(transform.position, player.position);
 
         if (distance <= detectionRange)
         {
-            // Rotate head to face player
-            Vector3 direction = player.position - head.position;
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
-            head.rotation = Quaternion.RotateTowards(head.rotation, lookRotation, rotationSpeed * Time.deltaTime);
-
-            // Shoot when cooldown allows
-            fireCooldown -= Time.deltaTime;
-            if (fireCooldown <= 0f)
+            if (head != null)
             {
-                Shoot();
-                fireCooldown = 1f / fireRate;
+
+                // Rotate head to face player
+                Vector3 direction = player.position - head.position;
+                Quaternion lookRotation = Quaternion.LookRotation(direction);
+                head.rotation = Quaternion.RotateTowards(head.rotation, lookRotation, rotationSpeed * Time.deltaTime);
+
+                // Shoot when cooldown allows
+                fireCooldown -= Time.deltaTime;
+                if (fireCooldown <= 0f)
+                {
+                    Shoot();
+                    fireCooldown = 1f / fireRate;
+                }
+            }
+            else
+            {
+                if (head != null)
+                    head.Rotate(Vector3.up, rotationSpeed * 0.25f * Time.deltaTime);
             }
         }
-        else
+
+
+        void Shoot()
         {
+            if (projectilePrefab == null || firePoint == null) return;
 
-            head.Rotate(Vector3.up, rotationSpeed * 0.25f * Time.deltaTime);
+            GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+            Rigidbody rb = projectile.GetComponent<Rigidbody>();
+
+            if (rb != null)
+            {
+                rb.linearVelocity = firePoint.forward * 20f;
+            }
+
+            ProjectileDamage projScript = projectile.GetComponent<ProjectileDamage>();
+            if (projScript != null)
+                projScript.damage = 1;
+
+            Destroy(projectile, 5f); // destroy projectile after 5 sec
         }
-    }
-
-
-    void Shoot()
-    {
-        if (projectilePrefab == null) return;
-
-        GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
-        Rigidbody rb = projectile.GetComponent<Rigidbody>();
-
-        if (rb != null)
-        {
-            rb.linearVelocity = firePoint.forward * 20f;
-        }
-
-        ProjectileDamage projScript = projectile.GetComponent<ProjectileDamage>();
-        if (projScript != null)
-            projScript.damage = 1;
-
-        Destroy(projectile, 5f); // destroy projectile after 5 sec
     }
 
     public void TakeDamage(int amount)
@@ -108,6 +118,11 @@ public class SentryAI : MonoBehaviour
 
     void Die()
     {
+        if (!gameObject) return;
+        enabled = false;
+
+        if (deathDustPrefab)
+            Instantiate(deathDustPrefab, transform.position, Quaternion.identity);
         Debug.Log("Enemy killed!");
         Destroy(gameObject);
     }
@@ -121,18 +136,23 @@ public class SentryAI : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if ( collision.relativeVelocity.magnitude > 5f)
-        {
-            Die();
-        }
+        if (collision.relativeVelocity.magnitude > 5f)
+            if (collision.relativeVelocity.magnitude > 5f)
+            {
+                if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Ledge"))
+                {
+                    Die();
 
-        // Die if hit by a falling object 
-        if (collision.gameObject.CompareTag("Ledge"))
-        {
-            Debug.Log("[SentryAI] Crushed by ledge!");
-            Destroy(gameObject);
+                }
 
-        }
+                // Die if hit by a falling object 
+                if (collision.gameObject.CompareTag("Ledge"))
+                {
+                    Debug.Log("[SentryAI] Crushed by ledge!");
+                    Destroy(gameObject);
+
+                }
+            }
     }
 }
 
