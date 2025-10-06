@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 3
   tags:
   - canPickUp
+  - Destructible
+  - Pillar
+  - Ground
+  - Enemy
+  - Ledge
   layers:
   - Default
   - TransparentFX
@@ -12,10 +17,10 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Interactable
   - 
   - holdLayer
-  - 
+  - Environmental FX
   - 
   - 
   - 
@@ -41,6 +46,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Environmental FX
+    uniqueID: 4101499487
     locked: 0
   m_RenderingLayers:
   - Default

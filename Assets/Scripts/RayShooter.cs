@@ -1,105 +1,134 @@
-using Unity.Mathematics;
 using UnityEngine;
 using System.Collections;
 
-//Title: Creating a rayGun
-//Author:Hocking, J.
-//Date: 2015
-//Code Version:
-//Availability: Unity in Action (Textbook)
 public class RayShooter : MonoBehaviour
 {
-    private Camera _camera;
-    private Controls controls;
+    [Header("RayGun References")]
+    public Camera _camera;
+    public Transform gunTransform;
+    public Transform firePoint;
+    public GameObject fireballPrefab;
 
+    [Header("Beam Settings")]
+    public float projectileSpeed = 30f;
+    public float beamWidth = 0.05f;
+    public Color beamColor = Color.red;
+    public float travelTime = 0.2f;
+    public float beamHoldTime = 0.05f;
+    public float beamRange = 100f;
+    public float beamForce = 300f;
 
-    void Awake()
-    {
-        _camera = GetComponent<Camera>();
-        controls = new Controls();
-        ;
-    }
-
+    [Header("Projectile Appearance")]
+    public Material projectileMaterial;
 
     void Start()
     {
-        _camera = GetComponent<Camera>();
+        if (_camera == null)
+            _camera = Camera.main;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
-
-    private void Update()
+    void Update()
     {
         if (Input.GetMouseButtonDown(0))
-        {
-            Vector3 point = new Vector3(_camera.pixelWidth / 2, _camera.pixelHeight / 2, 0);
-            Ray ray = _camera.ScreenPointToRay(point);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                StartCoroutine(SphereIndicator(hit.point));
-            }
-            if (Physics.Raycast(ray, out hit))
-            {
-                GameObject hitObject = hit.transform.gameObject;
-                ReactiveTarget target = hitObject.GetComponent<ReactiveTarget>();
-                if (target != null)
-                {
-                    target.ReactToHit();
+            FireRay();
+    }
 
-                }
-                else
-                {
-                    StartCoroutine(SphereIndicator(hit.point));
-                }
-            }
+    void FireRay()
+    {
+        Vector3 screenCenter = new Vector3(_camera.pixelWidth / 2, _camera.pixelHeight / 2, 0);
+        Ray cameraRay = _camera.ScreenPointToRay(screenCenter);
+
+        if (Physics.Raycast(cameraRay, out RaycastHit hitInfo, beamRange))
+        {
+            StartCoroutine(FireVisuals(hitInfo.point));
+            HandleHit(hitInfo);
+        }
+        else
+        {
+            Vector3 farPoint = cameraRay.GetPoint(beamRange);
+            StartCoroutine(FireVisuals(farPoint));
         }
 
-        if (Input.GetKeyDown(KeyCode.JoystickButton1))
+        // Fire projectile
+        if (fireballPrefab != null)
         {
-            Vector3 point = new Vector3(_camera.pixelWidth / 2, _camera.pixelHeight / 2, 0);
-            Ray ray = _camera.ScreenPointToRay(point);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                StartCoroutine(SphereIndicator(hit.point));
-            }
-            if (Physics.Raycast(ray, out hit))
-            {
-                GameObject hitObject = hit.transform.gameObject;
-                ReactiveTarget target = hitObject.GetComponent<ReactiveTarget>();
-                if (target != null)
-                {
-                    target.ReactToHit();
+            GameObject proj = Instantiate(fireballPrefab, firePoint.position, Quaternion.LookRotation(cameraRay.direction));
+            if (projectileMaterial != null)
+                proj.GetComponent<Renderer>().material = projectileMaterial;
 
-                }
-                else
-                {
-                    StartCoroutine(SphereIndicator(hit.point));
-                }
-            }
+            Rigidbody rb = proj.GetComponent<Rigidbody>();
+            if (rb != null)
+                rb.linearVelocity = cameraRay.direction * projectileSpeed;
+
+            Destroy(proj, 3f); // Destroy projectile after 3 seconds
         }
     }
 
-
-
-    private IEnumerator SphereIndicator(Vector3 pos)
+    private IEnumerator FireVisuals(Vector3 targetPos)
     {
-        GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        sphere.transform.position = pos;
-        yield return new WaitForSeconds(1);
-        Destroy(sphere);
+        // Create a line for beam
+        GameObject beamObj = new GameObject("LaserBeam");
+        LineRenderer lr = beamObj.AddComponent<LineRenderer>();
+        lr.startWidth = beamWidth;
+        lr.endWidth = beamWidth;
+        lr.material = new Material(Shader.Find("Unlit/Color"));
+        lr.material.color = beamColor;
+
+        Vector3 startPos = firePoint.position;
+        float elapsed = 0f;
+
+        while (elapsed < travelTime)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / travelTime);
+            lr.SetPosition(0, startPos);
+            lr.SetPosition(1, Vector3.Lerp(startPos, targetPos, t));
+            yield return null;
+        }
+
+        // Hold beam at full length
+        lr.SetPosition(0, startPos);
+        lr.SetPosition(1, targetPos);
+        yield return new WaitForSeconds(beamHoldTime);
+
+        Destroy(beamObj);
+
+        // Optional: show small impact sphere at hit point
+        GameObject impact = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        impact.transform.position = targetPos;
+        if (projectileMaterial != null)
+            impact.GetComponent<Renderer>().material = projectileMaterial;
+
+        Destroy(impact, 0.1f);
     }
 
-    void OnGUI()
+    private void HandleHit(RaycastHit hit)
     {
-        int size = 12;
-        float posX = _camera.pixelWidth / 2 - size / 4;
-        float posY = _camera.pixelHeight / 2 - size / 2;
-        GUI.Label(new Rect(posX, posY, size, size), "*");
+        // Apply force
+        if (hit.rigidbody != null)
+            hit.rigidbody.AddForce(hit.normal * beamForce, ForceMode.Impulse);
 
+        // Destructible objects
+        if (hit.collider.CompareTag("Destructible") || hit.collider.CompareTag("Pillar"))
+        {
+            Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
+            if (rb == null) rb = hit.collider.gameObject.AddComponent<Rigidbody>();
+            rb.isKinematic = false;
+            rb.useGravity = true;
 
+            Destroy(hit.collider.gameObject, hit.collider.CompareTag("Destructible") ? 0.5f : 1f);
+        }
+
+        // Example: stun enemy
+        Enemy enemy = hit.collider.GetComponent<Enemy>();
+        if (enemy != null) enemy.Stun();
+
+        // Break supports
+        BreakableSupport support = hit.collider.GetComponent<BreakableSupport>();
+        if (support != null) support.Break();
     }
 }
+

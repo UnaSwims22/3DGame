@@ -11,7 +11,7 @@ public class PlayerCharacter : MonoBehaviour
 
     void Start()
     {
-        _health = 5;
+        _health = 25;
         if (gameOverUI != null)
             gameOverUI.SetActive(false);
     }
