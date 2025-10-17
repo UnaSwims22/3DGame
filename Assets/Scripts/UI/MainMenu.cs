@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     
-    [SerializeField] string gameSceneName = "Game"; // <-- set to your game scene name
+    [SerializeField] string gameSceneName = "Game";
 
     // Button hooks
     public void Play() => SceneManager.LoadScene(gameSceneName);
@@ -19,7 +19,7 @@ public class MainMenu : MonoBehaviour
 #endif
     }
 
-   //keyboard/gamepad shortcuts in menu
+   
     void Update()
     {
         if (Keyboard.current?.escapeKey.wasPressedThisFrame == true) Quit();
