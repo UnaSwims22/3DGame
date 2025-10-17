@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MenuButtonController : MonoBehaviour
 {
@@ -15,34 +16,36 @@ public class MenuButtonController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float vertical = Input.GetAxis("Vertical");
-
-        //Keyboard navigation
-        if (vertical != 0)
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-           if (!keyDown)
-           { 
-                if (vertical < 0)
+            index = (index < maxIndex) ? index + 1 : 0;
+            PlayNavigateSound();
+        }
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            index = (index > 0) ? index - 1 : maxIndex;
+            PlayNavigateSound();
+        }
+
+        if (Gamepad.current != null)
+        {
+            if (Gamepad.current.dpad.down.wasPressedThisFrame)
                 index = (index < maxIndex) ? index + 1 : 0;
-            else if (vertical > 0)
+            else if (Gamepad.current.dpad.up.wasPressedThisFrame)
                 index = (index > 0) ? index - 1 : maxIndex;
+        }
 
-            keyDown = true; 
-            
-           }
-           
-        }
-        else
-        {
-            keyDown = false;
-        }
+
     }
 
+    void PlayNavigateSound()
+    {
+        if (audioSource)
+            audioSource.Play();
+    }
+         
     public void SetIndexByHover (int newIndex)
     {
         index = newIndex;
     }
-
-
-
 }
