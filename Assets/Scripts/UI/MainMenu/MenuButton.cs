@@ -1,16 +1,51 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class MenuButton : MonoBehaviour
+public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] MenuButtonController menuButtonController;
+    [SerializeField] Animator animator;
+    [SerializeField] AnimatorFunctions animatorFunctions;
+    [SerializeField] int thisIndex;
+    
+
+    public void OnPointerEnter(PointerEventData eventData)
     {
-        
+        menuButtonController.SetIndexByHover(thisIndex);
     }
 
-    // Update is called once per frame
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        animator.SetBool("selected", false);
+    }
+  
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        animator.SetBool("pressed", true);
+    }
+
+ 
     void Update()
     {
-        
+        if (menuButtonController.index == thisIndex)
+        {
+            animator.SetBool("selected", true);
+
+            if (Input.GetButtonDown("Submit"))
+            {
+                animator.SetBool("pressed", true);
+            }
+            else if (animator.GetBool("pressed"))
+            {
+                animator.SetBool("pressed", false);
+                animatorFunctions.disableOnce = true;
+            }
+        }
+        else
+        {
+            animator.SetBool("selected", false);
+        }
+
     }
 }
