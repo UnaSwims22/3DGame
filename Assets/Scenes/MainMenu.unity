@@ -1402,7 +1402,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 0
-  keyDown: 1
+  keyDown: 0
   maxIndex: 2
   audioSource: {fileID: 427604070}
 --- !u!82 &427604070
