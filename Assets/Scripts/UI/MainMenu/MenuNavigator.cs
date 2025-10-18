@@ -11,9 +11,11 @@ public class MenuNavigator : MonoBehaviour
     public float responseSpeed = 12f;
 
     [Header("Hand Settings")]
-    public RectTransform hands;     //hand sprite goes here!
+    public RectTransform rightHand;     //hand sprite goes here!
+    public RectTransform leftHand;
     public Vector2 padding = new Vector2(60f, 25f);  //spacing between the hand and button edges
     public float handMoveSmooth = 10f;
+    public Vector2 handOffset = new Vector2(0f, -50f);
 
     private int index = 0;
     private float inputCooldown = 0.15f;  //prevent spamming
@@ -74,28 +76,55 @@ public class MenuNavigator : MonoBehaviour
     }
     private void MoveHandsSmooth()
     {
-        if (!hands || buttonRects.Length == 0) return;
+        if (!leftHand || buttonRects.Length == 0) return;
 
-        RectTransform targetButton = buttonRects[index];
-        Vector2 buttonCenter = hands.parent.InverseTransformPoint(targetButton.position);
-        Vector2 buttonSize = targetButton.sizeDelta;
-        Vector2 targetPos = buttonCenter;
-        Vector2 targetSize = buttonSize + padding;
+        RectTransform targetButtonL = buttonRects[index];
+        Vector2 buttonCenterL = leftHand.parent.InverseTransformPoint(targetButtonL.position);
+        Vector2 buttonSizeL = targetButtonL.sizeDelta;
+        Vector2 targetPosL = buttonCenterL + handOffset;
+        Vector2 targetSize = buttonSizeL + padding;
 
-        hands.anchoredPosition = Vector2.Lerp(hands.anchoredPosition, targetPos, Time.deltaTime * handMoveSmooth * responseSpeed * 0.1f);
-        hands.sizeDelta = Vector2.Lerp(hands.sizeDelta, targetSize, Time.deltaTime * handMoveSmooth * responseSpeed * 0.1f);
+        leftHand.anchoredPosition = Vector2.Lerp(leftHand.anchoredPosition, targetPosL, Time.deltaTime * handMoveSmooth * responseSpeed * 0.1f);
+        leftHand.sizeDelta = Vector2.Lerp(leftHand.sizeDelta, targetSize, Time.deltaTime * handMoveSmooth * responseSpeed * 0.1f);
+
+        
+        
+        if (!rightHand || buttonRects.Length == 0) return;
+
+        RectTransform targetButtonR = buttonRects[index];
+        Vector2 buttonCenterR = rightHand.parent.InverseTransformPoint(targetButtonR.position);
+        Vector2 buttonSizeR = targetButtonR.sizeDelta;
+        Vector2 targetPosR = buttonCenterR + handOffset;
+        Vector2 targetSizeR = buttonSizeR + padding;
+
+        rightHand.anchoredPosition = Vector2.Lerp(rightHand.anchoredPosition, targetPosR, Time.deltaTime * handMoveSmooth * responseSpeed * 0.1f);
+        rightHand.sizeDelta = Vector2.Lerp(rightHand.sizeDelta, targetSize, Time.deltaTime * handMoveSmooth * responseSpeed * 0.1f);
     }
+
 
     private void MoveHandsInstant()
     {
-        if (!hands || buttonRects.Length == 0) return;
-
+        if (!leftHand || buttonRects.Length == 0) return;
+        
         RectTransform targetButton = buttonRects[index];
         Vector2 buttonCenter = targetButton.anchoredPosition;
         Vector2 buttonSize = targetButton.sizeDelta;
 
-        hands.anchoredPosition = buttonCenter;
-        hands.sizeDelta = buttonSize + padding;
+        leftHand.anchoredPosition = buttonCenter;
+        leftHand.sizeDelta = buttonSize + padding;
+
+        
+        
+        
+        if (!rightHand || buttonRects.Length == 0) return;
+
+        RectTransform targetButtonR = buttonRects[index];
+        Vector2 buttonCenterR = targetButtonR.anchoredPosition;
+        Vector2 buttonSizeR = targetButtonR.sizeDelta;
+
+        rightHand.anchoredPosition = buttonCenter;
+        rightHand.sizeDelta = buttonSize + padding;
+
     }
 
     private void UpdateButtonVisuals()
