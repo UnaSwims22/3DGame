@@ -207,7 +207,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 427604063}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: Play
+        m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -883,7 +883,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 427604063}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: Play
+        m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1590,7 +1590,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 427604063}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: Play
+        m_MethodName: OpenControls
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1982,8 +1982,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -21, y: 174}
-  m_SizeDelta: {x: 168.7766, y: 106.5941}
+  m_AnchoredPosition: {x: 10, y: 174}
+  m_SizeDelta: {x: 168.77661, y: 106.5941}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1925901806
 MonoBehaviour:
@@ -2041,7 +2041,7 @@ MonoBehaviour:
   - {fileID: 1062690817}
   - {fileID: 167978865}
   moveSpeed: 10
-  offset: {x: 150, y: 0, z: 0}
+  offset: {x: -150, y: 0, z: 0}
 --- !u!1 &1984268967
 GameObject:
   m_ObjectHideFlags: 0
