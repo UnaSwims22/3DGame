@@ -150,7 +150,7 @@ RectTransform:
   m_GameObject: {fileID: 10855900}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5720841, y: 0.7963411, z: 0.72645605}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1517227141}
@@ -158,7 +158,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 44, y: 0}
   m_SizeDelta: {x: 503.77722, y: 66.9043}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &10855902
@@ -306,7 +306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuButtonController: {fileID: 427604069}
-  disableOnce: 1
+  disableOnce: 0
 --- !u!1 &29636429
 GameObject:
   m_ObjectHideFlags: 0
@@ -452,8 +452,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -588,8 +588,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -826,7 +826,7 @@ RectTransform:
   m_GameObject: {fileID: 167978864}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6334334, y: 0.73900557, z: 0.84457785}
+  m_LocalScale: {x: 1, y: 1, z: 0.1445778}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 127801968}
@@ -982,7 +982,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuButtonController: {fileID: 427604069}
-  disableOnce: 1
+  disableOnce: 0
 --- !u!1 &240300542
 GameObject:
   m_ObjectHideFlags: 0
@@ -1098,14 +1098,14 @@ RectTransform:
   m_GameObject: {fileID: 245689057}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10.16, y: 8, z: 8}
+  m_LocalScale: {x: 9.331611, y: 9.3008, z: 9.3008}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 427604062}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 13, y: -17.000029}
+  m_AnchoredPosition: {x: 22.99998, y: -17.000029}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &245689059
@@ -1173,14 +1173,14 @@ RectTransform:
   m_GameObject: {fileID: 329473559}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 11.43, y: 8, z: 8}
+  m_LocalScale: {x: 10.498063, y: 9.3008, z: 9.3008}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 427604062}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 13, y: -17}
+  m_AnchoredPosition: {x: 23, y: -17}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &329473561
@@ -1534,7 +1534,7 @@ RectTransform:
   m_GameObject: {fileID: 1062690816}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.70153856, y: 0.8072743, z: 0.72645605}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 128189790}
@@ -1542,7 +1542,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.4999866, y: -162.61313}
+  m_AnchoredPosition: {x: -1.4999866, y: -140}
   m_SizeDelta: {x: 321.3784, y: 55.2258}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1062690818
@@ -1690,7 +1690,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuButtonController: {fileID: 427604069}
-  disableOnce: 1
+  disableOnce: 0
 --- !u!1 &1269993179
 GameObject:
   m_ObjectHideFlags: 0
@@ -1878,8 +1878,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1974,7 +1974,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1709938285}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -131}
   m_LocalScale: {x: 4.353971, y: 2.7647479, z: 2.7647479}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1982,7 +1982,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 11, y: -88}
+  m_AnchoredPosition: {x: -113, y: -88}
   m_SizeDelta: {x: 168.77661, y: 106.59412}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1709938287
@@ -2048,16 +2048,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1925901804}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.08133695, w: 0.9966867}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.4800112, y: 2.7015154, z: 2.7015154}
+  m_LocalScale: {x: 3.5944073, y: 2.9497848, z: 2.9497848}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 427604062}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 9.331}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 14, y: -43}
+  m_AnchoredPosition: {x: 239, y: -29}
   m_SizeDelta: {x: 168.77661, y: 106.5941}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1925901806
@@ -2149,12 +2149,13 @@ MonoBehaviour:
   - {fileID: 167978866}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   selectedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  responseSpeed: 12
+  responseSpeed: 20
   rightHand: {fileID: 1709938286}
   leftHand: {fileID: 1925901805}
   padding: {x: 60, y: 25}
   handMoveSmooth: 10
-  handOffset: {x: 0, y: -80}
+  handOffsetR: {x: -200, y: -80}
+  handOffsetL: {x: 230, y: -30}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

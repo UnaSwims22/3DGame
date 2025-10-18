@@ -15,7 +15,8 @@ public class MenuNavigator : MonoBehaviour
     public RectTransform leftHand;
     public Vector2 padding = new Vector2(60f, 25f);  //spacing between the hand and button edges
     public float handMoveSmooth = 10f;
-    public Vector2 handOffset = new Vector2(0f, -50f);
+    public Vector2 handOffsetR = new Vector2(0f, -50f);
+    public Vector2 handOffsetL = new Vector2(0f, -50f);
 
     private int index = 0;
     private float inputCooldown = 0.15f;  //prevent spamming
@@ -81,7 +82,7 @@ public class MenuNavigator : MonoBehaviour
         RectTransform targetButtonL = buttonRects[index];
         Vector2 buttonCenterL = leftHand.parent.InverseTransformPoint(targetButtonL.position);
         Vector2 buttonSizeL = targetButtonL.sizeDelta;
-        Vector2 targetPosL = buttonCenterL + handOffset;
+        Vector2 targetPosL = buttonCenterL + handOffsetL;
         Vector2 targetSize = buttonSizeL + padding;
 
         leftHand.anchoredPosition = Vector2.Lerp(leftHand.anchoredPosition, targetPosL, Time.deltaTime * handMoveSmooth * responseSpeed * 0.1f);
@@ -94,7 +95,7 @@ public class MenuNavigator : MonoBehaviour
         RectTransform targetButtonR = buttonRects[index];
         Vector2 buttonCenterR = rightHand.parent.InverseTransformPoint(targetButtonR.position);
         Vector2 buttonSizeR = targetButtonR.sizeDelta;
-        Vector2 targetPosR = buttonCenterR + handOffset;
+        Vector2 targetPosR = buttonCenterR + handOffsetR;
         Vector2 targetSizeR = buttonSizeR + padding;
 
         rightHand.anchoredPosition = Vector2.Lerp(rightHand.anchoredPosition, targetPosR, Time.deltaTime * handMoveSmooth * responseSpeed * 0.1f);
