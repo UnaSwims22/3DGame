@@ -46,10 +46,13 @@ public class MainMenu : MonoBehaviour
     {
         if (!isTransitioning)
             StartCoroutine(StartGameTransition());
+        
     }
 
-
-
+    public void PressPlay()
+    {
+        SceneManager.LoadScene(gameSceneName);
+    }
     //Called by controlls button
     public void OpenControls()
     {

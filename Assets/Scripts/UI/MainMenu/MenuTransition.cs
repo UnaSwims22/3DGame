@@ -42,10 +42,9 @@ public class MenuTransition : MonoBehaviour
 
     public void OnControlsPressed()
     {
-        if(isTransitioning)
-        {
+        if(!isTransitioning)
             StartCoroutine(TransitionAndLoad(controlsSceneName));
-        }
+        
     }
 
     public IEnumerator TransitionAndLoad(string sceneName)
