@@ -14,8 +14,27 @@ public class MainMenu : MonoBehaviour
     public Animator handAnimator;
     public CanvasGroup fadeCanvas;
 
+    [Header("Camera Animation Settings")]
+    public Camera mainCamera;
+    public float zoomTarget = 35f;
+    public float zoomSpeed = 10f;
+    public Vector3 cameraMoveTarget = new Vector3(0, -1f, -5f);
+    public float moveSpeed = 2f;
+
     private bool isTransitioning = false;
-    
+    private float originalFOV;
+    private Vector3 originalCamPos;
+
+    void Start()
+    {
+        if (mainCamera == null)
+            mainCamera = Camera.main;
+
+        originalFOV = mainCamera.fieldOfView;
+        originalCamPos = mainCamera.transform.position;
+    }
+
+
     void Update()
     {
         if (Keyboard.current?.escapeKey.wasPressedThisFrame == true) Quit();
@@ -28,6 +47,8 @@ public class MainMenu : MonoBehaviour
         if (!isTransitioning)
             StartCoroutine(StartGameTransition());
     }
+
+
 
     //Called by controlls button
     public void OpenControls()
@@ -64,6 +85,12 @@ public class MainMenu : MonoBehaviour
         while (t < duration)
         {
             t += Time.deltaTime;
+
+            // Camera zoom-in and move-down effect
+            mainCamera.fieldOfView = Mathf.Lerp(originalFOV, zoomTarget, t / duration);
+            mainCamera.transform.position = Vector3.Lerp(originalCamPos, cameraMoveTarget, t / duration);
+
+
             if (fadeCanvas)
                 fadeCanvas.alpha = Mathf.Lerp(0, 1, t / duration);
             yield return null;

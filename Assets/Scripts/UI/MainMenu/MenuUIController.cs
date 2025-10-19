@@ -15,7 +15,7 @@ public class MenuUIController : MonoBehaviour
     public RectTransform leftHand;
     public RectTransform rightHand;
     public Vector2 padding = new Vector2(60f, 25f);
-    public Vector2 handOffset = new Vector2(0f, -20f);
+    
     public float handMoveSmooth = 10f;
     public Vector2 handOffsetR = new Vector2(0f, -50f);
     public Vector2 handOffsetL = new Vector2(0f, -50f);
@@ -100,11 +100,12 @@ public class MenuUIController : MonoBehaviour
         if (!leftHand || !rightHand) return;
 
         RectTransform targetButton = buttonRects[index];
-        Vector2 targetCenter = targetButton.anchoredPosition + handOffset;
+        Vector2 targetCenterL = targetButton.anchoredPosition + handOffsetL;
+        Vector2 targetCenterR = targetButton.anchoredPosition + handOffsetR;
         Vector2 targetSize = targetButton.sizeDelta + padding;
 
-        leftHand.anchoredPosition = Vector2.Lerp(leftHand.anchoredPosition, targetCenter, Time.deltaTime * handSmooth);
-        rightHand.anchoredPosition = Vector2.Lerp(rightHand.anchoredPosition, targetCenter, Time.deltaTime * handSmooth);
+        leftHand.anchoredPosition = Vector2.Lerp(leftHand.anchoredPosition, targetCenterL, Time.deltaTime * handSmooth);
+        rightHand.anchoredPosition = Vector2.Lerp(rightHand.anchoredPosition, targetCenterR, Time.deltaTime * handSmooth);
 
         leftHand.sizeDelta = Vector2.Lerp(leftHand.sizeDelta, targetSize, Time.deltaTime * handSmooth);
         rightHand.sizeDelta = Vector2.Lerp(rightHand.sizeDelta, targetSize, Time.deltaTime * handSmooth);
@@ -114,7 +115,8 @@ public class MenuUIController : MonoBehaviour
     {
         if (!leftHand || !rightHand) return;
         RectTransform targetButton = buttonRects[index];
-        Vector2 targetCenter = targetButton.anchoredPosition + handOffset;
+        Vector2 targetCenter = targetButton.anchoredPosition + handOffsetL;
+
         Vector2 targetSize = targetButton.sizeDelta + padding;
 
         leftHand.anchoredPosition = targetCenter;
