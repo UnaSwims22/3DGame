@@ -51,13 +51,13 @@ public class MenuNavigator : MonoBehaviour
 
         bool changed = false;
 
-        if(Input.GetKeyDown(KeyCode.UpArrow))
+        if(Input.GetKeyDown(KeyCode.DownArrow))
         {
             index = (index + 1) % buttons.Length;
             changed = true;
         }
 
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             index--;
             if (index < 0) index = buttons.Length - 1;
