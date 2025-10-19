@@ -138,4 +138,10 @@ public class MenuNavigator : MonoBehaviour
         }
     
     }
+
+    public void OnButtonHover(int buttonIndex)
+    {
+        index = buttonIndex;
+        UpdateButtonVisuals();
+    }
 }
