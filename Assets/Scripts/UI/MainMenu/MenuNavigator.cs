@@ -8,7 +8,7 @@ public class MenuNavigator : MonoBehaviour
     public Button[] buttons;         //all buttons assigned here
     public Color normalColor = Color.white; //unselected
     public Color selectedColor = Color.grey;  //selected
-    public float responseSpeed = 12f;
+    public float responseSpeed = 200f;
 
     [Header("Hand Settings")]
     public RectTransform rightHand;     //hand sprite goes here!
@@ -27,6 +27,7 @@ public class MenuNavigator : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        index = 0;
         buttonRects = new RectTransform[buttons.Length];
         for (int i = 0; i < buttons.Length; i++)
             buttonRects[i] = buttons[i].GetComponent<RectTransform>();

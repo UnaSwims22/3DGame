@@ -7,6 +7,9 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     [SerializeField] MenuButtonController menuButtonController;
     [SerializeField] Animator animator;
     [SerializeField] AnimatorFunctions animatorFunctions;
+    
+    
+    public MenuNavigator navigator;
     [SerializeField] int thisIndex;
     
 

@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 public class MenuButtonController : MonoBehaviour
 {
     public int index = 0;
     [SerializeField] bool keyDown;
     [SerializeField] int maxIndex;
+
     public AudioSource audioSource;
 
     void Start()
@@ -13,7 +15,6 @@ public class MenuButtonController : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.DownArrow))
@@ -38,14 +39,18 @@ public class MenuButtonController : MonoBehaviour
 
     }
 
-    void PlayNavigateSound()
+    // Update is called once per frame
+
+
+    public void PlayNavigateSound()
     {
         if (audioSource)
             audioSource.Play();
     }
-         
-    public void SetIndexByHover (int newIndex)
+
+    public void SetIndexByHover(int newIndex)
     {
         index = newIndex;
     }
+
 }

@@ -151,7 +151,7 @@ RectTransform:
   m_GameObject: {fileID: 10855900}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 5.418091}
-  m_LocalScale: {x: 1, y: 0.85, z: 0.71714795}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.71714795}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1517227141}
@@ -183,7 +183,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.74509805}
+    m_NormalColor: {r: 0.12523314, g: 0.3254902, b: 0.13188343, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0, g: 0, b: 0, a: 0.84705883}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -243,7 +243,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.2627451}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -305,6 +305,7 @@ MonoBehaviour:
   menuButtonController: {fileID: 427604069}
   animator: {fileID: 10855905}
   animatorFunctions: {fileID: 10855907}
+  navigator: {fileID: 1984268969}
   thisIndex: 0
 --- !u!114 &10855907
 MonoBehaviour:
@@ -319,7 +320,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuButtonController: {fileID: 427604069}
-  disableOnce: 0
+  disableOnce: 1
 --- !u!114 &10855908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -961,7 +962,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.2627451}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1023,6 +1024,7 @@ MonoBehaviour:
   menuButtonController: {fileID: 427604069}
   animator: {fileID: 167978869}
   animatorFunctions: {fileID: 167978871}
+  navigator: {fileID: 1984268969}
   thisIndex: 2
 --- !u!114 &167978871
 MonoBehaviour:
@@ -1037,7 +1039,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuButtonController: {fileID: 427604069}
-  disableOnce: 0
+  disableOnce: 1
 --- !u!114 &167978872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1323,6 +1325,7 @@ GameObject:
   - component: {fileID: 427604069}
   - component: {fileID: 427604070}
   - component: {fileID: 427604071}
+  - component: {fileID: 427604072}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1370,9 +1373,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameSceneName: Game
   controlsSceneName: Controls
-  backgroundAnimator: {fileID: 0}
+  backgroundAnimator: {fileID: 478848103}
   handAnimator: {fileID: 0}
-  fadeCanvas: {fileID: 0}
+  fadeCanvas: {fileID: 240300544}
 --- !u!114 &427604064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1487,7 +1490,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 0
-  keyDown: 0
+  keyDown: 1
   maxIndex: 2
   audioSource: {fileID: 427604070}
 --- !u!82 &427604070
@@ -1502,10 +1505,10 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 726d767d9ef783548a854107743047b4, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -1609,6 +1612,31 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &427604072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 427604061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33d0532082ed99f49aa4bcd4f457eff0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttons:
+  - {fileID: 10855902}
+  - {fileID: 1062690818}
+  - {fileID: 167978866}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  selectedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  responseSpeed: 200
+  rightHand: {fileID: 1709938286}
+  leftHand: {fileID: 1925901805}
+  padding: {x: 60, y: 25}
+  handMoveSmooth: 10
+  handOffsetR: {x: 0, y: -50}
+  handOffsetL: {x: 0, y: -50}
 --- !u!1 &478848099
 GameObject:
   m_ObjectHideFlags: 0
@@ -1644,7 +1672,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 7}
+  m_AnchoredPosition: {x: 34, y: 7}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &478848101
@@ -1747,7 +1775,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 6.9377, y: -126.7486}
+  m_AnchoredPosition: {x: -44, y: -139}
   m_SizeDelta: {x: 202.0891, y: 63.2702}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1062690818
@@ -1771,9 +1799,9 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.74509805}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0, g: 0, b: 0, a: 1}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -1831,7 +1859,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.2627451}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1893,6 +1921,7 @@ MonoBehaviour:
   menuButtonController: {fileID: 427604069}
   animator: {fileID: 1062690821}
   animatorFunctions: {fileID: 1062690823}
+  navigator: {fileID: 1984268969}
   thisIndex: 1
 --- !u!114 &1062690823
 MonoBehaviour:
@@ -1907,7 +1936,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuButtonController: {fileID: 427604069}
-  disableOnce: 0
+  disableOnce: 1
 --- !u!114 &1062690824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2405,7 +2434,7 @@ Transform:
   m_GameObject: {fileID: 1984268967}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.760966, y: 20.502647, z: -48.575184}
+  m_LocalPosition: {x: 13.760966, y: 134, z: -48.575184}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2426,7 +2455,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttons:
   - {fileID: 1062690818}
-  - {fileID: 10855902}
+  - {fileID: 1062690818}
   - {fileID: 167978866}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   selectedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
