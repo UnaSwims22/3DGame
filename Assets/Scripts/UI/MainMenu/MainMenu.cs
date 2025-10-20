@@ -53,6 +53,7 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene(gameSceneName);
     }
+
     //Called by controlls button
     public void OpenControls()
     {
