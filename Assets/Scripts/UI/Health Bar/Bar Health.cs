@@ -8,20 +8,20 @@ public class BarHealth : MonoBehaviour
     public Image healthBar; //actual ui bar
     public Image[] healthPoints;
 
-    float health, maxHealth = 100f;
+    float currentHealth, maxHealth = 100f;
     float lerpSpeed;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
-        health = maxHealth;
+        currentHealth = maxHealth;
     }
 
     // Update is called once per frame
     private void Update()
     {
-        healthText.text = "Health:" + health + "%";
-        if (health > maxHealth) health = maxHealth;
+        healthText.text = "Health:" + currentHealth + "%";
+        if (currentHealth > maxHealth) currentHealth = maxHealth;
 
         lerpSpeed = 3f * Time.deltaTime;
         HealthBarFiller();
@@ -33,12 +33,19 @@ public class BarHealth : MonoBehaviour
             Heal(10f);
     }
 
+     public void SetHealth(float current, float max)
+    {
+        currentHealth = current;
+        maxHealth = max;
+        healthText.text = "Health: " + Mathf.RoundToInt((currentHealth / maxHealth) * 100) + "%";
+    }
+
     void HealthBarFiller()
     {
-        healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, (health / maxHealth), lerpSpeed);
+        healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, (currentHealth / maxHealth), lerpSpeed);
         for (int i = 0; i < healthPoints.Length; i++)
         {
-            healthPoints[i].enabled = !DisplayHealthPoint(health, i);
+            healthPoints[i].enabled = !DisplayHealthPoint(currentHealth, i);
         }
     }
 
@@ -49,15 +56,15 @@ public class BarHealth : MonoBehaviour
 
     public void Damage(float damagePoints)
     {
-        if (health > 0)
+        if (currentHealth > 0)
 
-            health -= damagePoints;
+            currentHealth -= damagePoints;
     }
 
     public void Heal(float healingPoints)
     {
-        if (health < maxHealth)
-            health += healingPoints;
+        if (currentHealth < maxHealth)
+            currentHealth += healingPoints;
 
     }
 
