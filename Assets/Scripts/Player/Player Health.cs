@@ -116,15 +116,20 @@ public class PlayerHealth : MonoBehaviour
         if (isPulsing && pulseRoutine != null)
         {
             StopCoroutine(pulseRoutine);
-            damageIndicator.color = Color.clear;
+           
             isPulsing = false;
         }
+
+        damageIndicator.color = Color.clear;
 
         if (heartbeatRoutine != null)
         {
             StopCoroutine(heartbeatRoutine);
             heartbeatRoutine = null;
         }
+
+        if (audioSource.isPlaying)
+            audioSource.Stop();
     }
 
     private void Die()
@@ -198,4 +203,6 @@ public class PlayerHealth : MonoBehaviour
 
         mainCamera.transform.localPosition = originalPos;
     }
+
+
 }
