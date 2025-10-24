@@ -204,5 +204,24 @@ public class PlayerHealth : MonoBehaviour
         mainCamera.transform.localPosition = originalPos;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("HealthPickup"))
+        {
+            HealthPickup pickup = other.GetComponent<HealthPickup>();
+            if (pickup != null)
+            {
+                Heal(pickup.amount);
+                Destroy(other.gameObject);
+            }
+        }
 
+    }
+
+}
+
+[System.Serializable]
+public class HealthPickup : MonoBehaviour
+{
+    public float amount = 50f;
 }

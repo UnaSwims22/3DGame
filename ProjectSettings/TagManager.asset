@@ -10,7 +10,7 @@ TagManager:
   - Ground
   - Enemy
   - Ledge
-  - Health
+  - HealthPickup
   layers:
   - Default
   - TransparentFX
@@ -19,7 +19,7 @@ TagManager:
   - Water
   - UI
   - Interactable
-  - pickupLayer
+  - HealthPickup
   - holdLayer
   - Environmental FX
   - 
