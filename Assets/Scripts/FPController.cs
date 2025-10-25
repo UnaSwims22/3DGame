@@ -28,7 +28,7 @@ public class FPController : MonoBehaviour
     private Vector2 lookInput;
     private Vector3 velocity;
     private float verticalRotation = 0f;
-    private Animator animator;
+    [SerializeField] private Animator animator;
     private CharacterController CharacterController => controller;
 
     //(Crouching)
@@ -49,6 +49,7 @@ public class FPController : MonoBehaviour
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
+        animator = GetComponentInChildren<Animator>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
