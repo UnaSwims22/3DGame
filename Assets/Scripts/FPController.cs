@@ -28,6 +28,8 @@ public class FPController : MonoBehaviour
     private Vector2 lookInput;
     private Vector3 velocity;
     private float verticalRotation = 0f;
+    private Animator animator;
+    private CharacterController CharacterController => controller;
 
     //(Crouching)
     public float crouchHeight = 1f;
@@ -61,6 +63,10 @@ public class FPController : MonoBehaviour
         {
             heldObject.MoveToHoldPoint(holdPoint.position);
         }
+        //animations
+        animator.SetBool("isWalking", Input.GetAxisRaw("Vertical") != 0);
+        animator.SetBool("isJumping", !CharacterController.isGrounded);
+
     }
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -133,6 +139,7 @@ public class FPController : MonoBehaviour
             heldObject = null;
         }
     }
+
 
     
  
