@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 
 [RequireComponent(typeof(AudioSource))]
@@ -29,13 +30,15 @@ public class PlayerHealth : MonoBehaviour
     [Header("Audio Settings")]
     public AudioClip heartbeatClip; // assign a slow, bassy heartbeat sound
     public float heartbeatInterval = 1f; // delay between beats at low health
-    private AudioSource audioSource;
+    private AudioSource damageAudio;
 
     private bool isFlashing = false;
     private bool isPulsing = false;
     private Coroutine pulseRoutine;
     private Coroutine heartbeatRoutine;
+    private Coroutine damageFlashCoroutine;
     private Color baseColor;
+    private bool isLowHealthActive = false;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -54,16 +57,18 @@ public class PlayerHealth : MonoBehaviour
         if (mainCamera == null)
             mainCamera = Camera.main;
 
-        audioSource = GetComponent<AudioSource>();
-        audioSource.loop = false;
-        audioSource.playOnAwake = false;
+        damageAudio = GetComponent<AudioSource>();
+        damageAudio.loop = false;
+        damageAudio.playOnAwake = false;
+
+        
     }
 
     // Update is called once per frame
     private void Update()
     {
         // Test damage (press K)
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.J))
             TakeDamage(20f);
     }
 
@@ -71,6 +76,11 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth -= amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+        
+
+        if (damageAudio)
+            damageAudio.Play();
 
         if (healthBar != null)
             healthBar.SetHealth(currentHealth, maxHealth);
@@ -120,7 +130,7 @@ public class PlayerHealth : MonoBehaviour
             isPulsing = false;
         }
 
-        damageIndicator.color = Color.clear;
+        
 
         if (heartbeatRoutine != null)
         {
@@ -128,8 +138,8 @@ public class PlayerHealth : MonoBehaviour
             heartbeatRoutine = null;
         }
 
-        if (audioSource.isPlaying)
-            audioSource.Stop();
+        if (damageAudio.isPlaying)
+            damageAudio.Stop();
     }
 
     private void Die()
@@ -175,9 +185,9 @@ public class PlayerHealth : MonoBehaviour
     {
         while (currentHealth <= lowHealthThreshold)
         {
-            if (heartbeatClip != null && !audioSource.isPlaying)
+            if (heartbeatClip != null && !damageAudio.isPlaying)
             {
-                audioSource.PlayOneShot(heartbeatClip);
+                damageAudio.PlayOneShot(heartbeatClip);
             }
 
             // heartbeat speeds up slightly as health gets lower
@@ -219,6 +229,7 @@ public class PlayerHealth : MonoBehaviour
     }
 
 }
+
 
 [System.Serializable]
 public class HealthPickup : MonoBehaviour
