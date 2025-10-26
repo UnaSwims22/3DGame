@@ -2,13 +2,21 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public float health = 100f;
+    public int maxHealth = 3;
+    private int currentHealth;
 
-    public void Stun()
+    public GameObject deathEffect;
+
+    void Start()
     {
-        health -= 25f;
-        Debug.Log("Enemy stunned!");
-        if (health <= 0)
+        currentHealth = maxHealth;
+    }
+
+    public void TakeDamage(int amount)
+    {
+        currentHealth -= amount;
+
+        if (currentHealth <= 0)
         {
             Die();
         }
@@ -16,16 +24,15 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
-        Debug.Log("Enemy killed!");
+        if (deathEffect)
+            Instantiate(deathEffect, transform.position, Quaternion.identity);
+
+        Destroy(gameObject);
     }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.relativeVelocity.magnitude > 5f)
-        {
-            Die();
-        }
-    }
-
-
 }
+    
+    
+    
+
+
+

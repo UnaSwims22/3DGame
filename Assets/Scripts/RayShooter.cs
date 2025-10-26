@@ -122,9 +122,16 @@ public class RayShooter : MonoBehaviour
             Destroy(hit.collider.gameObject, hit.collider.CompareTag("Destructible") ? 0.5f : 1f);
         }
 
-        // Example: stun enemy
-        Enemy enemy = hit.collider.GetComponent<Enemy>();
-        if (enemy != null) enemy.Stun();
+        // Damage enemies (instead of stun)
+        Enemy enemyHealth = hit.collider.GetComponent<Enemy>();
+        if (enemyHealth != null)
+        {
+            enemyHealth.TakeDamage(1); // Adjust damage value if needed
+        }
+
+
+
+   
 
         // Break supports
         BreakableSupport support = hit.collider.GetComponent<BreakableSupport>();

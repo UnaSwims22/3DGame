@@ -80,6 +80,15 @@ public class WanderingAI : MonoBehaviour
             Rigidbody rb = _fireball.GetComponent<Rigidbody>();
             Collider fireballCollider = _fireball.GetComponent<Collider>();
             Collider aiCollider = GetComponent<Collider>();
+
+
+            if (fireballCollider != null && aiCollider != null)
+            {
+                // Prevent fireball from colliding with the AI who fired it
+                Physics.IgnoreCollision(fireballCollider, aiCollider);
+            }
+
+
             if (rb != null && player != null)
             {
                 Vector3 dir = (player.position - transform.position).normalized;
@@ -88,6 +97,14 @@ public class WanderingAI : MonoBehaviour
 
             Destroy(_fireball, 5f);
         }
+
+        ProjectileDamage projectileDamage = _fireball.GetComponent<ProjectileDamage>();
+        if (projectileDamage != null)
+        {
+            projectileDamage.damage = 10f;       // or whatever feels balanced
+            projectileDamage.targetTag = "Player";
+        }
+
     }
 
     public void SetAlive(bool alive)

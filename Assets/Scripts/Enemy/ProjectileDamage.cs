@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ProjectileDamage : MonoBehaviour
 {
-    public float damage = 10f;     // Default damage
+    public float damage = 5f;    // Default damage
     public string targetTag = "Player"; // The tag that should receive the damage
 
     private void OnCollisionEnter(Collision collision)

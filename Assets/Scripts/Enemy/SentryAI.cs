@@ -82,8 +82,11 @@ public class SentryAI : MonoBehaviour
 
             ProjectileDamage projScript = projectile.GetComponent<ProjectileDamage>();
             if (projScript != null)
-                projScript.damage = 1;
-
+            {
+                projScript.damage = 15f;            // higher damage than wandering AI
+                projScript.targetTag = "Player";
+            }
+               
             Destroy(projectile, 5f); // destroy projectile after 5 sec
         }
     }
