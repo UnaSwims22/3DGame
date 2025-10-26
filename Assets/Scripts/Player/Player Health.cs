@@ -152,7 +152,25 @@ public class PlayerHealth : MonoBehaviour
     IEnumerator DamageFlash()
     {
         isFlashing = true;
+
+        if (damageIndicator == null)
+        {
+            Debug.LogWarning("Damage Indicator not assigned");
+            yield break;
+
+        }
+
         damageIndicator.color = flashColor;
+
+        float timer = 0f;
+        float flashDuration = 0.3f; // short visible flash
+
+        // Hold the red flash for a brief moment
+        while (timer < flashDuration)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
 
         while (damageIndicator.color.a > 0.05f)
         {
@@ -173,7 +191,7 @@ public class PlayerHealth : MonoBehaviour
         {
             t += Time.deltaTime * pulseSpeed;
             float alpha = Mathf.PingPong(t, 0.4f); // smooth pulsing opacity
-            damageIndicator.color = new Color(1f, 0f, 0f, alpha);
+            
             yield return null;
         }
 

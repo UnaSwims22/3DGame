@@ -17,6 +17,7 @@ public class FPController : MonoBehaviour
     public float jumpHeight = 1.5f;
 
     [Header("Look Settings")]
+    public Camera _camera;
     public Transform cameraTransform;
     public float lookSensitivity = 2f;
     public float verticalLookLimit = 90f;

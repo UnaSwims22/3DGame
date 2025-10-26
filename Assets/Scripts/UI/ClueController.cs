@@ -9,7 +9,7 @@ using UnityEngine.Events;
 public class ClueController : MonoBehaviour
 {
     [Header("Input")]
-    [SerializeField] private KeyCode closeKey;
+    [SerializeField] private KeyCode capsKey;
 
     [Space(10)]
     [SerializeField] private FPController player;
@@ -52,7 +52,7 @@ public class ClueController : MonoBehaviour
     {
         if (isOpen)
         {
-            if (Input.GetKeyDown(closeKey))
+            if (Input.GetKeyDown(KeyCode.T))
             {
                 DisableClue();
             }
