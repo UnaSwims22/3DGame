@@ -21,6 +21,7 @@ public class WanderingAI : MonoBehaviour
 
     private float lastAttackTime;
     private bool _alive = true;
+    private int currentHealth = 3;
 
     [Header("Player Reference")]
     private Transform player;
@@ -29,7 +30,10 @@ public class WanderingAI : MonoBehaviour
     {
         _alive = true;
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
+        currentHealth = 3;
     }
+
+
 
     void Update()
     {
@@ -110,5 +114,28 @@ public class WanderingAI : MonoBehaviour
     public void SetAlive(bool alive)
     {
         _alive = alive;
+    }
+
+    public void TakeDamage(int amount, Vector3 pushDirection)
+    {
+        currentHealth -= amount;
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+        else
+        {
+            // Apply pushback
+            if (TryGetComponent<Rigidbody>(out Rigidbody rb))
+            {
+                rb.AddForce(pushDirection, ForceMode.Impulse);
+            }
+        }
+    }
+
+    private void Die()
+    {
+        _alive = false;
+        Destroy(gameObject);
     }
 }

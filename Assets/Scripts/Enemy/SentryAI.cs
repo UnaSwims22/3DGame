@@ -13,6 +13,7 @@ public class SentryAI : MonoBehaviour
     public float fireRate = 1f;
     public float stunDuration = 4f;
     public int maxHealth = 3;
+    
 
     [Header("Death Effects")]
     public GameObject deathDustPrefab;
@@ -91,9 +92,12 @@ public class SentryAI : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(int amount, Vector3 pushDirection)
     {
         currentHealth -= amount;
+
+        
+
         if (currentHealth <= 0)
         {
             Die();
@@ -104,11 +108,7 @@ public class SentryAI : MonoBehaviour
         }
     }
 
-    public void Stun()
-    {
-        if (!isStunned) // prevents restarting the stun every frame 
-            StartCoroutine(StunRoutine());
-    }
+    
 
     private System.Collections.IEnumerator StunRoutine()
     {

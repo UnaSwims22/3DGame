@@ -1,78 +1,69 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-//using UnityStandardAssets.Characters.FirstPerson;
 
 public class ClueController : MonoBehaviour
 {
-    [Header("Input")]
-    [SerializeField] private KeyCode capsKey;
+    [Header("Clue Content")]
+    [SerializeField] private Sprite clueSprite;         // unique image for this clue
+    [SerializeField][TextArea] private string clueText; // unique description text
 
-    [Space(10)]
-    [SerializeField] private FPController player;
+    [Header("Player Control")]
+    [SerializeField] private FPController player;       // reference to your player controller
 
-    [Header("UI Text")]
-    [SerializeField] private GameObject clueCanvas;
-    [SerializeField] private TMP_Text clueTextAreaUI;
+    [Header("Events (optional)")]
+    [SerializeField] private UnityEvent onClueOpened;
+    [SerializeField] private UnityEvent onClueClosed;
 
-    [Space(10)]
-    [SerializeField][TextArea] private string clueText;
-    [SerializeField] private TMP_Text exitHintText;
-
-    [Space(10)]
-    [SerializeField] private UnityEvent openEvent;
     private bool isOpen = false;
     public bool IsOpen => isOpen;
 
-
-    public void ShowClue()
+    
+        public void ShowClue()
     {
-        clueTextAreaUI.text = clueText;
-        clueCanvas.SetActive(true);
-        openEvent.Invoke();
+        Debug.Log("Trying to show clue for " + gameObject.name);
+
+        if (ClueDisplayManager.Instance == null)
+        {
+            Debug.LogError("❌ ClueDisplayManager.Instance is NULL!");
+            return;
+        }
+
+        ClueDisplayManager.Instance.ShowClueUI(clueSprite, clueText);
         DisablePlayer(true);
         isOpen = true;
-
-        if (exitHintText != null)
-        {
-            exitHintText.text = $"Press{capsKey.ToString().ToUpper()} to exit clue";
-            exitHintText.enabled = true;
-        }
     }
 
-    void DisableClue()
+        
+    
+
+    public void CloseClue()
     {
-        clueCanvas.SetActive(false);
-        clueTextAreaUI.text = null;//may clear
-        DisablePlayer(false);
+        if (!isOpen) return;
+
         isOpen = false;
+        onClueClosed?.Invoke();
 
-        if (exitHintText != null)
-        {
-            exitHintText.text = "";
-            exitHintText.enabled = false;
-        }
+        ClueDisplayManager.Instance.HideClueUI();
+        DisablePlayer(false);
     }
 
-    void DisablePlayer(bool disable)
+    private void DisablePlayer(bool disable)
     {
-        player.enabled = !disable;
+        if (player != null)
+            player.enabled = !disable;
     }
 
     private void Update()
     {
-        if (isOpen)
+        // Press "T" to close the clue
+        if (isOpen && Input.GetKeyDown(KeyCode.T))
         {
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                DisableClue();
-            }
+            CloseClue();
         }
     }
-
 }
+
+
 
 

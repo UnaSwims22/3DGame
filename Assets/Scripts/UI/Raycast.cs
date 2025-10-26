@@ -1,119 +1,86 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Raycast : MonoBehaviour
 {
-    [Header("Raycast Features")]
-    [SerializeField] private float rayLength = 5;
+    [Header("Raycast Settings")]
+    [SerializeField] private float rayLength = 5f;
     private Camera _camera;
+
+    [Header("UI References")]
+    [SerializeField] private Image crosshair;
+    [SerializeField] private TMP_Text interactionHintText;
+
+    [Header("Keys")]
+    [SerializeField] private KeyCode interactKey = KeyCode.CapsLock;
+    [SerializeField] private KeyCode exitKey = KeyCode.T;
 
     private ClueController _clueController;
 
-    [Header("Crosshair")]
-
-    [SerializeField] private Image crosshair;
-
-    [Header("Input Key")]
-    [SerializeField] private KeyCode interactKey;
-
-    [SerializeField] private TMP_Text interactionHintText;
-    [SerializeField] private TMP_Text interactionHintTextDisappear;
-
-
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _camera = GetComponentInChildren<Camera>();
     }
 
-    // Update is called once per frame
-    private void Update()
+    void Update()
     {
-        if (Physics.Raycast(_camera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f)), transform.forward, out RaycastHit hit, rayLength))
-        {
-            var readableItem = hit.collider.GetComponent<ClueController>();
-            if (readableItem != null)
-            {
-                _clueController = readableItem;
-                HighlightCrosshair(true);
-
-                if (!_clueController.IsOpen)
-                {
-                    interactionHintText.text = $"Press {interactKey.ToString().ToUpper()} to Read Clue";
-                    interactionHintText.enabled = true;
-
-                    if (Input.GetKeyDown(interactKey))
-                    {
-                        _clueController.ShowClue();
-                    }
-                }
-
-
-
-            }
-            else
-            {
-                ClearNote();
-
-            }
-        }
-        else
-        {
-            ClearNote();
-        }
-
+        // If player is viewing a clue, handle exit input
         if (_clueController != null && _clueController.IsOpen)
         {
-            interactionHintText.text = "Press T to Exit";
+            interactionHintText.text = $"Press {exitKey} to Exit";
             interactionHintText.enabled = true;
 
-            if (Input.GetKeyDown(KeyCode.T))
+            if (Input.GetKeyDown(exitKey))
             {
-                // Simulate closing clue (calls DisableClue() via Update in ClueController)
-                _clueController.SendMessage("DisableClue", SendMessageOptions.DontRequireReceiver);
-                ClearNote();
+                _clueController.CloseClue();
+                ClearHint();
+            }
+            return;
+        }
+
+        // Otherwise, handle normal clue detection
+        Ray ray = _camera.ViewportPointToRay(new Vector3(0.5f, 0.5f));
+
+        if (Physics.Raycast(ray, out RaycastHit hit, rayLength))
+        {
+            var clue = hit.collider.GetComponent<ClueController>();
+
+            if (clue != null)
+            {
+                _clueController = clue;
+                HighlightCrosshair(true);
+
+                interactionHintText.text = $"Press {interactKey.ToString().ToUpper()} to Read Clue";
+                interactionHintText.enabled = true;
 
                 if (Input.GetKeyDown(interactKey))
                 {
                     _clueController.ShowClue();
                 }
             }
-
-        }
-
-        void ClearNote()
-        {
-            if (_clueController != null && !_clueController.IsOpen)
-            {
-                HighlightCrosshair(false);
-                _clueController = null;
-                //Disable crosshair
-
-            }
-
-            //  Hide the hint
-            interactionHintTextDisappear.text = "";
-            interactionHintTextDisappear.enabled = false;
-
-
-        }
-
-        void HighlightCrosshair(bool on)
-        {
-            if (on)
-            {
-                crosshair.color = Color.red;
-            }
             else
             {
-                crosshair.color = Color.white;
+                ClearHint();
             }
         }
+        else
+        {
+            ClearHint();
+        }
+    }
+
+    void ClearHint()
+    {
+        HighlightCrosshair(false);
+        interactionHintText.text = "";
+        interactionHintText.enabled = false;
+        _clueController = null;
+    }
+
+    void HighlightCrosshair(bool on)
+    {
+        crosshair.color = on ? Color.red : Color.white;
     }
 }
 

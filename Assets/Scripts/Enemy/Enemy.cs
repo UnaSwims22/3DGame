@@ -6,15 +6,20 @@ public class Enemy : MonoBehaviour
     private int currentHealth;
 
     public GameObject deathEffect;
+    private EnemyDamageFlash damageFlash;
 
     void Start()
     {
         currentHealth = maxHealth;
+        damageFlash = GetComponent<EnemyDamageFlash>();
     }
 
     public void TakeDamage(int amount)
     {
         currentHealth -= amount;
+
+        if (damageFlash != null)
+            damageFlash.Flash();
 
         if (currentHealth <= 0)
         {

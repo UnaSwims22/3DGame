@@ -127,11 +127,33 @@ public class RayShooter : MonoBehaviour
         if (enemyHealth != null)
         {
             enemyHealth.TakeDamage(1); // Adjust damage value if needed
+            return;
+        }
+
+        // Damage Sentry AI
+        SentryAI sentry = hit.collider.GetComponent<SentryAI>();
+        if (sentry != null)
+        {
+            Vector3 pushDir = -hit.normal;
+            sentry.TakeDamage(1, pushDir);
+            if (sentry.TryGetComponent<Rigidbody>(out Rigidbody rb))
+            {
+                rb.AddForce(-hit.normal * 5f, ForceMode.Impulse); // small pushback
+            }
+            return;
+        }
+
+        // Damage Wandering AI
+        WanderingAI wander = hit.collider.GetComponent<WanderingAI>();
+        if (wander != null)
+        {
+            // Create a TakeDamage function in WanderingAI first
+            wander.TakeDamage(1, -hit.normal * 5f);
+            return;
         }
 
 
 
-   
 
         // Break supports
         BreakableSupport support = hit.collider.GetComponent<BreakableSupport>();
