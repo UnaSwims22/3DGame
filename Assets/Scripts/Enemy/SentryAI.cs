@@ -93,7 +93,7 @@ public class SentryAI : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(int amount, Vector3 pushDir)
     {
         currentHealth -= amount;
 
@@ -159,6 +159,9 @@ public class SentryAI : MonoBehaviour
             }
     }
 
-    
+    internal void TakeDamage(int maxHealth)
+    {
+        throw new NotImplementedException();
+    }
 }
 

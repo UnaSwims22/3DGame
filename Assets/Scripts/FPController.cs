@@ -65,9 +65,7 @@ public class FPController : MonoBehaviour
         {
             heldObject.MoveToHoldPoint(holdPoint.position);
         }
-        //animations
-        animator.SetBool("isWalking", Input.GetAxisRaw("Vertical") != 0);
-        animator.SetBool("isJumping", !CharacterController.isGrounded);
+        
 
     }
     public void OnMove(InputAction.CallbackContext context)
