@@ -11,6 +11,7 @@ TagManager:
   - Enemy
   - Ledge
   - HealthPickup
+  - PlayerProjectile
   layers:
   - Default
   - TransparentFX

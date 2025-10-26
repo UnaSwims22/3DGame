@@ -1,48 +1,43 @@
 using UnityEngine;
+using System.Collections;
 
 public class ProjectileDamage : MonoBehaviour
 {
-    [Header("Projectile Settings")]
-    public int damage = 1;
-    public float projectileSpeed = 30f;
+    public float damage = 10f;     // Default damage
+    public string targetTag = "Player"; // The tag that should receive the damage
 
-
-    private void Start()
+    private void OnCollisionEnter(Collision collision)
     {
-        Rigidbody rb = GetComponent<Rigidbody>();
-        if (rb != null)
+        // Ignore collisions with AI who fired it (handled by IgnoreCollision in their scripts)
+        if (collision.gameObject.CompareTag(targetTag))
         {
-            rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic; // prevents fast projectiles from passing through
+            PlayerHealth player = collision.gameObject.GetComponent<PlayerHealth>();
+            if (player != null)
+            {
+                player.TakeDamage(damage);
+            }
         }
+
+        // Destroy the projectile on impact
+        Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        PlayerCharacter player = other.GetComponent<PlayerCharacter>();
-        if (player != null)
+        if (other.CompareTag(targetTag))
         {
-            player.Hurt(damage);  // triggers DamageFlash and GameOver
-        }
-    }
-
-
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            PlayerCharacter pc = collision.collider.GetComponent<PlayerCharacter>();
-            if (pc != null)
+            PlayerHealth player = other.GetComponent<PlayerHealth>();
+            if (player != null)
             {
-                pc.Hurt(damage);
-                Debug.Log("Player hit for " + damage + "damage!");
-            } 
-        }
+                player.TakeDamage(damage);
+            }
 
-        Destroy(this.gameObject);
+            Destroy(gameObject);
+        }
     }
 }
 
+    
 
 
 

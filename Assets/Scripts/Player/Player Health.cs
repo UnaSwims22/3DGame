@@ -144,6 +144,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void Die()
     {
+        gameObject.SetActive(false);
         Debug.Log("Player Died!");
         
         // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -236,7 +237,7 @@ public class PlayerHealth : MonoBehaviour
     {
         if (other.CompareTag("HealthPickup"))
         {
-            HealthPickup pickup = other.GetComponent<HealthPickup>();
+            PickupHealth pickup = other.GetComponent<PickupHealth>();
             if (pickup != null)
             {
                 Heal(pickup.amount);
@@ -246,11 +247,4 @@ public class PlayerHealth : MonoBehaviour
 
     }
 
-}
-
-
-[System.Serializable]
-public class HealthPickup : MonoBehaviour
-{
-    public float amount = 50f;
 }
