@@ -27,10 +27,7 @@ public class BarHealth : MonoBehaviour
         HealthBarFiller();
 
 
-        if (Input.GetKeyDown(KeyCode.Space))
-            Damage(10f);
-        if (Input.GetKeyDown(KeyCode.H))
-            Heal(10f);
+        
     }
 
      public void SetHealth(float current, float max)
