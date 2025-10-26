@@ -20,10 +20,12 @@ public class ClueController : MonoBehaviour
 
     [Space(10)]
     [SerializeField][TextArea] private string clueText;
+    [SerializeField] private TMP_Text exitHintText;
 
     [Space(10)]
     [SerializeField] private UnityEvent openEvent;
     private bool isOpen = false;
+    public bool IsOpen => isOpen;
 
 
     public void ShowClue()
@@ -33,6 +35,12 @@ public class ClueController : MonoBehaviour
         openEvent.Invoke();
         DisablePlayer(true);
         isOpen = true;
+
+        if (exitHintText != null)
+        {
+            exitHintText.text = $"Press{capsKey.ToString().ToUpper()} to exit clue";
+            exitHintText.enabled = true;
+        }
     }
 
     void DisableClue()
@@ -41,6 +49,12 @@ public class ClueController : MonoBehaviour
         clueTextAreaUI.text = null;//may clear
         DisablePlayer(false);
         isOpen = false;
+
+        if (exitHintText != null)
+        {
+            exitHintText.text = "";
+            exitHintText.enabled = false;
+        }
     }
 
     void DisablePlayer(bool disable)

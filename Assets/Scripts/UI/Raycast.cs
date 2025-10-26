@@ -1,5 +1,6 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,16 +13,22 @@ public class Raycast : MonoBehaviour
     private ClueController _clueController;
 
     [Header("Crosshair")]
+
     [SerializeField] private Image crosshair;
 
     [Header("Input Key")]
     [SerializeField] private KeyCode interactKey;
 
+    [SerializeField] private TMP_Text interactionHintText;
+    [SerializeField] private TMP_Text interactionHintTextDisappear;
+
+
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _camera = GetComponent<Camera>();
+        _camera = GetComponentInChildren<Camera>();
     }
 
     // Update is called once per frame
@@ -34,6 +41,20 @@ public class Raycast : MonoBehaviour
             {
                 _clueController = readableItem;
                 HighlightCrosshair(true);
+
+                if (!_clueController.IsOpen)
+                {
+                    interactionHintText.text = $"Press {interactKey.ToString().ToUpper()} to Read Clue";
+                    interactionHintText.enabled = true;
+
+                    if (Input.GetKeyDown(interactKey))
+                    {
+                        _clueController.ShowClue();
+                    }
+                }
+
+
+
             }
             else
             {
@@ -46,39 +67,56 @@ public class Raycast : MonoBehaviour
             ClearNote();
         }
 
-        if (_clueController != null)
+        if (_clueController != null && _clueController.IsOpen)
         {
-            if (Input.GetKeyDown(interactKey))
+            interactionHintText.text = "Press T to Exit";
+            interactionHintText.enabled = true;
+
+            if (Input.GetKeyDown(KeyCode.T))
             {
-                _clueController.ShowClue();
+                // Simulate closing clue (calls DisableClue() via Update in ClueController)
+                _clueController.SendMessage("DisableClue", SendMessageOptions.DontRequireReceiver);
+                ClearNote();
+
+                if (Input.GetKeyDown(interactKey))
+                {
+                    _clueController.ShowClue();
+                }
             }
+
         }
 
-    }
+        void ClearNote()
+        {
+            if (_clueController != null && !_clueController.IsOpen)
+            {
+                HighlightCrosshair(false);
+                _clueController = null;
+                //Disable crosshair
 
-    void ClearNote()
-    {
-        if (_clueController != null)
-        {
-            HighlightCrosshair(false);
-            _clueController = null;
-            //Disable crosshair
-            //noteController = null;
-        }
-    }
+            }
 
-    void HighlightCrosshair(bool on)
-    {
-        if (on)
-        {
-            crosshair.color = Color.red;
+            //  Hide the hint
+            interactionHintTextDisappear.text = "";
+            interactionHintTextDisappear.enabled = false;
+
+
         }
-        else
+
+        void HighlightCrosshair(bool on)
         {
-            crosshair.color = Color.white;
+            if (on)
+            {
+                crosshair.color = Color.red;
+            }
+            else
+            {
+                crosshair.color = Color.white;
+            }
         }
     }
 }
+
 
 
 
