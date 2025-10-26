@@ -123,14 +123,7 @@ public class WanderingAI : MonoBehaviour
         {
             Die();
         }
-        else
-        {
-            // Apply pushback
-            if (TryGetComponent<Rigidbody>(out Rigidbody rb))
-            {
-                rb.AddForce(pushDirection, ForceMode.Impulse);
-            }
-        }
+        
     }
 
     private void Die()

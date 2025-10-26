@@ -134,8 +134,7 @@ public class RayShooter : MonoBehaviour
         SentryAI sentry = hit.collider.GetComponent<SentryAI>();
         if (sentry != null)
         {
-            Vector3 pushDir = -hit.normal;
-            sentry.TakeDamage(1, pushDir);
+            
             if (sentry.TryGetComponent<Rigidbody>(out Rigidbody rb))
             {
                 rb.AddForce(-hit.normal * 5f, ForceMode.Impulse); // small pushback

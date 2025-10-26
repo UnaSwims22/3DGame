@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 
@@ -92,7 +93,7 @@ public class SentryAI : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int amount, Vector3 pushDirection)
+    public void TakeDamage(int amount)
     {
         currentHealth -= amount;
 
@@ -157,5 +158,7 @@ public class SentryAI : MonoBehaviour
                 }
             }
     }
+
+    
 }
 
