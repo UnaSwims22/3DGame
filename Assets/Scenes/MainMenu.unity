@@ -206,9 +206,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 427604063}
-        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: PressPlay
+      - m_Target: {fileID: 1984268970}
+        m_TargetAssemblyTypeName: MenuTransition, Assembly-CSharp
+        m_MethodName: OnPlayPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1081,6 +1081,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 1984268970}
+          m_TargetAssemblyTypeName: MenuTransition, Assembly-CSharp
+          m_MethodName: OnQuitPressed
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &240300542
 GameObject:
   m_ObjectHideFlags: 0
@@ -1637,7 +1649,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 427604061}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 33d0532082ed99f49aa4bcd4f457eff0, type: 3}
   m_Name: 
@@ -1662,7 +1674,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 427604061}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eb6c687874542c94182d975c9458f817, type: 3}
   m_Name: 
@@ -1999,9 +2011,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 427604063}
-        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: PressPlay
+      - m_Target: {fileID: 1984268970}
+        m_TargetAssemblyTypeName: MenuTransition, Assembly-CSharp
+        m_MethodName: OnControlsPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2013,7 +2025,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1984268970}
         m_TargetAssemblyTypeName: MenuTransition, Assembly-CSharp
-        m_MethodName: OnPlayPressed
+        m_MethodName: OnControlsPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2472,15 +2484,15 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1709938285}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -131}
-  m_LocalScale: {x: 4.353971, y: 2.7647479, z: 2.7647479}
+  m_LocalPosition: {x: 0, y: 0, z: -19.527}
+  m_LocalScale: {x: 5.09284, y: 3.2339256, z: 3.2339256}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 427604062}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -113, y: -88}
+  m_AnchoredPosition: {x: -48.057007, y: -122.01201}
   m_SizeDelta: {x: 168.77661, y: 106.59412}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1709938287
@@ -2676,15 +2688,15 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1925901804}
   m_LocalRotation: {x: -0, y: -0, z: 0.08133695, w: 0.9966867}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.5944073, y: 2.9497848, z: 2.9497848}
+  m_LocalPosition: {x: 0, y: 0, z: 1.5273}
+  m_LocalScale: {x: 4.204378, y: 3.4503634, z: 3.4503634}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 427604062}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 9.331}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 239, y: -29}
+  m_AnchoredPosition: {x: 166.82, y: -53}
   m_SizeDelta: {x: 168.77661, y: 106.5941}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1925901806
@@ -2772,17 +2784,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttons:
-  - {fileID: 1062690818}
+  - {fileID: 10855902}
   - {fileID: 1062690818}
   - {fileID: 167978866}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   selectedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  responseSpeed: 20
+  responseSpeed: 50
   rightHand: {fileID: 1709938286}
   leftHand: {fileID: 1925901805}
   padding: {x: 60, y: 25}
-  handMoveSmooth: 10
-  handOffsetR: {x: -200, y: -80}
+  handMoveSmooth: 50
+  handOffsetR: {x: -200, y: -100}
   handOffsetL: {x: 230, y: -30}
 --- !u!114 &1984268970
 MonoBehaviour:

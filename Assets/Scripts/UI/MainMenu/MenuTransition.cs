@@ -37,13 +37,13 @@ public class MenuTransition : MonoBehaviour
     public void OnPlayPressed()
     {
         if (!isTransitioning)
-            StartCoroutine(TransitionAndLoad(gameSceneName));
+            StartCoroutine(TransitionAndLoad("Game"));
     }
 
     public void OnControlsPressed()
     {
         if(!isTransitioning)
-            StartCoroutine(TransitionAndLoad(controlsSceneName));
+            StartCoroutine(TransitionAndLoad("Controls"));
         
     }
 

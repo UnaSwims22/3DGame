@@ -51,19 +51,19 @@ public class MainMenu : MonoBehaviour
 
     public void PressPlay()
     {
-        SceneManager.LoadScene(gameSceneName);
+        SceneManager.LoadScene(sceneName: "Game");
     }
 
     //Called by controlls button
     public void OpenControls()
     {
-        SceneManager.LoadScene(controlsSceneName);
+        SceneManager.LoadScene(sceneName: "Controls");
     }
         
     //Called by back button in controls scene
     public void BackToMenu()
     {
-        SceneManager.LoadScene("Main Menu");
+        SceneManager.LoadScene(sceneName: "Main Menu");
     }
 
     public void Quit()
@@ -100,7 +100,7 @@ public class MainMenu : MonoBehaviour
             yield return null;
         }
 
-        SceneManager.LoadScene(gameSceneName);
+        SceneManager.LoadScene(sceneName: "Game");
     }
    
     

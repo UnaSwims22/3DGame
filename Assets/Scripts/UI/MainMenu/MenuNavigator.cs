@@ -8,7 +8,7 @@ public class MenuNavigator : MonoBehaviour
     public Button[] buttons;         //all buttons assigned here
     public Color normalColor = Color.white; //unselected
     public Color selectedColor = Color.grey;  //selected
-    public float responseSpeed = 200f;
+    public float responseSpeed = 500f;
 
     [Header("Hand Settings")]
     public RectTransform rightHand;     //hand sprite goes here!
