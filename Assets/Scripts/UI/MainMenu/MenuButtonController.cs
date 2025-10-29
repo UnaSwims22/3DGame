@@ -39,7 +39,7 @@ public class MenuButtonController : MonoBehaviour
 
     }
 
-    // Update is called once per frame
+
 
 
     public void PlayNavigateSound()
