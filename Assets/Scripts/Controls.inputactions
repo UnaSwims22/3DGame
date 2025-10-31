@@ -348,6 +348,85 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "flashlight",
+            "id": "574c8b62-758e-491b-93ee-4bf5fc5cec76",
+            "actions": [
+                {
+                    "name": "Switching on Flash",
+                    "type": "Value",
+                    "id": "5c07c7c7-462e-4882-bfe5-d304b876ceaa",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "FlashOn",
+                    "type": "Button",
+                    "id": "758782f4-7121-4633-8fb9-4f6685273561",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "FlashOFF",
+                    "type": "Button",
+                    "id": "08e7c308-82d8-4ddd-abc1-e8e637368db1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "66375ef3-201e-4999-b5d3-76e505d557a7",
+                    "path": "<Keyboard>/numpad1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "FlashOn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "92ec8062-a482-40c1-b101-20602a45566c",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "FlashOn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "592ee9b1-fd7c-411f-8b94-04d21b8904b8",
+                    "path": "<Keyboard>/numpad2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "FlashOFF",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8fa503ad-fce1-44d1-aa09-b757809cfbca",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "FlashOFF",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
