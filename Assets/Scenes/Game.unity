@@ -351360,7 +351360,7 @@ MonoBehaviour:
   _camera: {fileID: 1039271967}
   gunTransform: {fileID: 736883679}
   firePoint: {fileID: 915214093}
-  fireballPrefab: {fileID: 825940302}
+  fireballPrefab: {fileID: 1329845292236604, guid: d295650552ee1634cafcfc42f4418aad, type: 3}
   projectileSpeed: 50
   beamWidth: 0.2
   beamColor: {r: 0.8867924, g: 0.6572256, b: 0.031790547, a: 1}
