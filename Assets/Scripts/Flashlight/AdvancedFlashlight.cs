@@ -35,7 +35,7 @@ public class AdvancedFlashlight : MonoBehaviour
 
     void Update()
     {
-        text.text = ("Battery Life  ") + lifetime.ToString("0") + "%";
+        text.text = ("Battery Life     ") + lifetime.ToString("0") + "%";
         batteryText.text = batteries.ToString();
 
 
