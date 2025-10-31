@@ -35,10 +35,11 @@ public class AdvancedFlashlight : MonoBehaviour
 
     void Update()
     {
-        text.text = lifetime.ToString("0") + "%";
+        text.text = ("Battery Life  ") + lifetime.ToString("0") + "%";
         batteryText.text = batteries.ToString();
 
-        if (Input.GetButtonDown("flashlight") && off)
+
+        if( Input.GetKeyDown(KeyCode.Keypad1) && off)
         {
             flashON.Play();
             light.enabled = true;
@@ -46,7 +47,7 @@ public class AdvancedFlashlight : MonoBehaviour
             off = false;
         }
 
-        else if (Input.GetButtonDown("flashlight") && on)
+        else if (Input.GetKeyDown(KeyCode.Keypad1) && on)
         {
             flashOFF.Play();
             light.enabled = false;
@@ -72,13 +73,13 @@ public class AdvancedFlashlight : MonoBehaviour
             lifetime = 100;
         }
 
-        if (Input.GetButtonDown("reload") && batteries >= 1)
+        if (Input.GetKeyDown(KeyCode.Keypad2) && batteries >= 1)
         {
             batteries -= 1;
             lifetime += 50;
         }
 
-        if (Input.GetButtonDown("reload") && batteries == 0)
+        if (Input.GetKeyDown(KeyCode.Keypad2) && batteries == 0)
         {
             return;
         }

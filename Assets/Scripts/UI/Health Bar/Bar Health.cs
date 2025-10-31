@@ -20,7 +20,7 @@ public class BarHealth : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        healthText.text = "Health:" + currentHealth + "%";
+        healthText.text = "Health   " + currentHealth + "%";
         if (currentHealth > maxHealth) currentHealth = maxHealth;
 
         lerpSpeed = 3f * Time.deltaTime;
@@ -34,7 +34,7 @@ public class BarHealth : MonoBehaviour
     {
         currentHealth = current;
         maxHealth = max;
-        healthText.text = "Health: " + Mathf.RoundToInt((currentHealth / maxHealth) * 100) + "%";
+        healthText.text = "Health   " + Mathf.RoundToInt((currentHealth / maxHealth) * 100) + "%";
     }
 
     void HealthBarFiller()
