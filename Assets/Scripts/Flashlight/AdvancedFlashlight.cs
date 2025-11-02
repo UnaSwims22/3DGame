@@ -7,6 +7,8 @@ public class AdvancedFlashlight : MonoBehaviour
 {
 
     public Light light;
+
+    public BatteryLifeBar batteryLifeBar;
     public TMP_Text text;
 
     public TMP_Text batteryText;
@@ -17,6 +19,7 @@ public class AdvancedFlashlight : MonoBehaviour
 
     public AudioSource flashON;
     public AudioSource flashOFF;
+    public AudioSource rechargeSound;
 
     private bool on;
     private bool off;
@@ -38,8 +41,16 @@ public class AdvancedFlashlight : MonoBehaviour
         text.text = ("Battery Life     ") + lifetime.ToString("0") + "%";
         batteryText.text = batteries.ToString();
 
+        HandleToggle();
+        HandleRecharge();
+        HandleDrain();
 
-        if( Input.GetKeyDown(KeyCode.Keypad1) && off)
+    }
+
+    void HandleToggle()
+    {
+
+        if (Input.GetKeyDown(KeyCode.Keypad1) && off)
         {
             flashON.Play();
             light.enabled = true;
@@ -54,6 +65,11 @@ public class AdvancedFlashlight : MonoBehaviour
             on = false;
             off = true;
         }
+
+    }
+
+    void HandleDrain()
+    {
 
         if (on)
         {
@@ -72,6 +88,11 @@ public class AdvancedFlashlight : MonoBehaviour
         {
             lifetime = 100;
         }
+
+    }
+
+    void HandleRecharge()
+    { 
 
         if (Input.GetKeyDown(KeyCode.Keypad2) && batteries >= 1)
         {

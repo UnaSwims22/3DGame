@@ -208018,7 +208018,6 @@ GameObject:
   - component: {fileID: 1242436616}
   - component: {fileID: 1242436615}
   - component: {fileID: 1242436614}
-  - component: {fileID: 1242436618}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: HealthPickup
@@ -208235,19 +208234,6 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
---- !u!114 &1242436618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1242436609}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 878fe3f6c6294d9439e90969feaf2c64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  amount: 50
 --- !u!1 &1243049440
 GameObject:
   m_ObjectHideFlags: 0
@@ -352051,12 +352037,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   light: {fileID: 2136590012}
+  batteryLifeBar: {fileID: 0}
   text: {fileID: 1146262650}
   batteryText: {fileID: 1247370923}
   lifetime: 100
   batteries: 0
   flashON: {fileID: 1799661500}
   flashOFF: {fileID: 1579969893}
+  rechargeSound: {fileID: 0}
 --- !u!1 &2137686832
 GameObject:
   m_ObjectHideFlags: 0

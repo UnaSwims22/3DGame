@@ -39,22 +39,22 @@ public class BatteryLifeBar : MonoBehaviour
     }
 
 
-    bool DisplayBatteryLifePoint(float _health, int pointNumber)
+    bool DisplayBatteryLifePoint(float value, int pointNumber)
     {
-        return ((pointNumber * 10) >= _health);
+        return ((pointNumber * 10) >= value);
     }
 
-    public void Damage(float damagePoints)
+    public void Drain(float drainPoints)
     {
         if (currentBatterylifetime > 0)
 
-            currentBatterylifetime -= damagePoints;
+            currentBatterylifetime -= drainPoints;
     }
 
-    public void Recharge(float healingPoints)
+    public void Recharge(float rechargePoints)
     {
         if (currentBatterylifetime < maxBatteryLifetime)
-            currentBatterylifetime += healingPoints;
+            currentBatterylifetime += rechargePoints;
 
     }
 
