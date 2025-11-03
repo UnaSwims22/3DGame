@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class RayShooter : MonoBehaviour
@@ -20,6 +20,9 @@ public class RayShooter : MonoBehaviour
 
     [Header("Projectile Appearance")]
     public Material projectileMaterial;
+    public ChargeUpController chargeController;
+    public MuzzleFlash muzzleFlash;
+
 
     void Start()
     {
@@ -33,78 +36,126 @@ public class RayShooter : MonoBehaviour
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
-            FireRay();
+            chargeController.BeginCharge();
+
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            bool fullPower = chargeController.ReleaseCharge();
+            FireRay(fullPower);
+        }
+            
     }
 
-    void FireRay()
+    void FireRay(bool fullPower)
     {
+        muzzleFlash?.PlayFlash();
+
+        if (fullPower)
+        {
+            beamWidth *= 1.8f;
+            beamForce *= 1.6f;
+        }
+        
         Vector3 screenCenter = new Vector3(_camera.pixelWidth / 2, _camera.pixelHeight / 2, 0);
         Ray cameraRay = _camera.ScreenPointToRay(screenCenter);
 
+        Vector3 hitPoint;
+
         if (Physics.Raycast(cameraRay, out RaycastHit hitInfo, beamRange))
         {
-            StartCoroutine(FireVisuals(hitInfo.point));
+            hitPoint = hitInfo.point;
+            StartCoroutine(FireBeam3D(hitPoint));
             HandleHit(hitInfo);
         }
         else
         {
-            Vector3 farPoint = cameraRay.GetPoint(beamRange);
-            StartCoroutine(FireVisuals(farPoint));
+            hitPoint = cameraRay.GetPoint(beamRange);
+            StartCoroutine(FireBeam3D(hitPoint));
         }
 
-        // Fire projectile
+       
         if (fireballPrefab != null)
         {
-            GameObject proj = Instantiate(fireballPrefab, firePoint.position, Quaternion.LookRotation(cameraRay.direction));
+            GameObject proj = Instantiate(
+                fireballPrefab,
+                firePoint.position,
+                Quaternion.LookRotation(cameraRay.direction)
+            );
+
             if (projectileMaterial != null)
                 proj.GetComponent<Renderer>().material = projectileMaterial;
 
             Rigidbody rb = proj.GetComponent<Rigidbody>();
             if (rb != null)
+            {
                 rb.linearVelocity = cameraRay.direction * projectileSpeed;
+            }
 
-            Destroy(proj, 3f); // Destroy projectile after 3 seconds
+            Destroy(proj, 3f);
         }
     }
 
-    private IEnumerator FireVisuals(Vector3 targetPos)
+
+    private IEnumerator FireBeam3D(Vector3 targetPos)
     {
-        // Create a line for beam
-        GameObject beamObj = new GameObject("LaserBeam");
-        LineRenderer lr = beamObj.AddComponent<LineRenderer>();
-        lr.startWidth = beamWidth;
-        lr.endWidth = beamWidth;
-        lr.material = new Material(Shader.Find("Unlit/Color"));
-        lr.material.color = beamColor;
+        GameObject beamObj = new GameObject("RayBeamMesh");
+        MeshFilter meshFilter = beamObj.AddComponent<MeshFilter>();
+        MeshRenderer meshRenderer = beamObj.AddComponent<MeshRenderer>();
+        meshRenderer.material = new Material(Shader.Find("Unlit/Color"));
+        meshRenderer.material.color = beamColor;
+
+        Mesh beamMesh = new Mesh();
+        meshFilter.mesh = beamMesh;
 
         Vector3 startPos = firePoint.position;
+        Vector3 dir = (targetPos - startPos).normalized;
+        float dist = Vector3.Distance(startPos, targetPos);
+
         float elapsed = 0f;
 
         while (elapsed < travelTime)
         {
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / travelTime);
-            lr.SetPosition(0, startPos);
-            lr.SetPosition(1, Vector3.Lerp(startPos, targetPos, t));
+
+            Vector3 currentEnd = Vector3.Lerp(startPos, targetPos, t);
+            UpdateBeamMesh(beamMesh, startPos, currentEnd);
+
             yield return null;
         }
 
-        // Hold beam at full length
-        lr.SetPosition(0, startPos);
-        lr.SetPosition(1, targetPos);
+        UpdateBeamMesh(beamMesh, startPos, targetPos);
+
         yield return new WaitForSeconds(beamHoldTime);
-
         Destroy(beamObj);
-
-        // Optional: show small impact sphere at hit point
-        GameObject impact = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        impact.transform.position = targetPos;
-        if (projectileMaterial != null)
-            impact.GetComponent<Renderer>().material = projectileMaterial;
-
-        Destroy(impact, 0.1f);
     }
 
+   
+    void UpdateBeamMesh(Mesh mesh, Vector3 start, Vector3 end)
+    {
+        Vector3 dir = (end - start).normalized;
+        Vector3 side = Vector3.Cross(dir, Vector3.up).normalized * beamWidth;
+
+        Vector3[] vertices = new Vector3[4];
+        vertices[0] = start + side;
+        vertices[1] = start - side;
+        vertices[2] = end + side;
+        vertices[3] = end - side;
+
+        int[] triangles = new int[]
+        {
+            0, 2, 1,
+            2, 3, 1
+        };
+
+        mesh.Clear();
+        mesh.vertices = vertices;
+        mesh.triangles = triangles;
+        mesh.RecalculateBounds();
+    }
+
+  
     private void HandleHit(RaycastHit hit)
     {
         // Apply force
@@ -122,11 +173,11 @@ public class RayShooter : MonoBehaviour
             Destroy(hit.collider.gameObject, hit.collider.CompareTag("Destructible") ? 0.5f : 1f);
         }
 
-        // Damage enemies (instead of stun)
+        // Damage enemies
         Enemy enemyHealth = hit.collider.GetComponent<Enemy>();
         if (enemyHealth != null)
         {
-            enemyHealth.TakeDamage(1); // Adjust damage value if needed
+            enemyHealth.TakeDamage(1);
             return;
         }
 
@@ -134,11 +185,8 @@ public class RayShooter : MonoBehaviour
         SentryAI sentry = hit.collider.GetComponent<SentryAI>();
         if (sentry != null)
         {
-            
             if (sentry.TryGetComponent<Rigidbody>(out Rigidbody rb))
-            {
-                rb.AddForce(-hit.normal * 5f, ForceMode.Impulse); // small pushback
-            }
+                rb.AddForce(-hit.normal * 5f, ForceMode.Impulse);
             return;
         }
 
@@ -146,17 +194,11 @@ public class RayShooter : MonoBehaviour
         WanderingAI wander = hit.collider.GetComponent<WanderingAI>();
         if (wander != null)
         {
-            // Create a TakeDamage function in WanderingAI first
             wander.TakeDamage(1, -hit.normal * 5f);
             return;
         }
 
-
-
-
-        // Break supports
         BreakableSupport support = hit.collider.GetComponent<BreakableSupport>();
         if (support != null) support.Break();
     }
 }
-
