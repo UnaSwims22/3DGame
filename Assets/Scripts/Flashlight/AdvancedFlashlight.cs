@@ -110,8 +110,10 @@ public class AdvancedFlashlight : MonoBehaviour
             batteries = 0;
         }
 
-
-
+    }
+     public void AddBattery(int amount)
+    {
+        batteries += amount;
     }
 
 }

@@ -5,17 +5,19 @@ using System.Collections.Generic;
 
 public class BatteryPickup : MonoBehaviour
 {
-    public float amount = 50f;
+    public int batteryAmount = 1;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void OnTriggerEnter(Collider other)
     {
-        BatteryLifeBar currentBatterylifetime = other.GetComponent<BatteryLifeBar>();
-        if (currentBatterylifetime)
+        AdvancedFlashlight flashlight = other.GetComponentInChildren<AdvancedFlashlight>();
+        if (flashlight != null)
         {
-            currentBatterylifetime.Recharge(amount);
+            flashlight.AddBattery(batteryAmount);
             Destroy(gameObject);
         }
+
+       
     }
 
   
