@@ -98,6 +98,7 @@ public class AdvancedFlashlight : MonoBehaviour
         {
             batteries -= 1;
             lifetime += 50;
+            rechargeSound.Play();
         }
 
         if (Input.GetKeyDown(KeyCode.Keypad2) && batteries == 0)
@@ -109,6 +110,8 @@ public class AdvancedFlashlight : MonoBehaviour
         {
             batteries = 0;
         }
+
+
 
     }
      public void AddBattery(int amount)
