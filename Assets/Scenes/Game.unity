@@ -272979,6 +272979,63 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1001 &1698589852
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1956986049303825121, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
+      propertyPath: m_Name
+      value: Fog Lighting effect  (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5668816374708917901, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 38.608734
+      objectReference: {fileID: 0}
+    - target: {fileID: 5668816374708917901, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.526371
+      objectReference: {fileID: 0}
+    - target: {fileID: 5668816374708917901, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -148.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 5668816374708917901, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5668816374708917901, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5668816374708917901, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5668816374708917901, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5668816374708917901, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5668816374708917901, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5668816374708917901, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
 --- !u!43 &1698664297
 Mesh:
   m_ObjectHideFlags: 0
@@ -353098,6 +353155,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a71c6cd41e377f047a335935191a40b4, type: 3}
+--- !u!1001 &4278924475166575263
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1956986049303825121, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
+      propertyPath: m_Name
+      value: 'Fog Lighting effect '
+      objectReference: {fileID: 0}
+    - target: {fileID: 5668816374708917901, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5668816374708917901, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5668816374708917901, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5668816374708917901, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5668816374708917901, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5668816374708917901, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5668816374708917901, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5668816374708917901, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5668816374708917901, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5668816374708917901, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
 --- !u!1001 &6008784115618315675
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -353247,3 +353361,5 @@ SceneRoots:
   - {fileID: 78116552}
   - {fileID: 1153698505}
   - {fileID: 1530597380}
+  - {fileID: 4278924475166575263}
+  - {fileID: 1698589852}
