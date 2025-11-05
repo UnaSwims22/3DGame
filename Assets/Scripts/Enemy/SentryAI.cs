@@ -8,12 +8,15 @@ public class SentryAI : MonoBehaviour
     public Transform head;              // turret head
     public Transform firePoint;         // Where bullets spawn
     public GameObject projectilePrefab;
+    public float attackRate = 1.5f;
+    private float nextFireTime;
+
     public float projectileSpeed = 20f;
     public float rotationSpeed = 45f;   // Degrees per second
     public float detectionRange = 20f;
     public float fireRate = 1f;
     public float stunDuration = 4f;
-    public int maxHealth = 3;
+    
     
 
     [Header("Death Effects")]
@@ -25,11 +28,14 @@ public class SentryAI : MonoBehaviour
     private int currentHealth;
     private Rigidbody rb;
 
+    private Enemy health;
+    public int maxHealth = 3;
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        currentHealth = maxHealth;
+        health = GetComponent<Enemy>();
+        
         rb = GetComponent<Rigidbody>();
 
     }
@@ -38,8 +44,6 @@ public class SentryAI : MonoBehaviour
     {
         if (!this || !gameObject || head == null || player == null) return;
         if (isStunned) return;
-
-
 
         // if player is in range
         float distance = Vector3.Distance(transform.position, player.position);
@@ -67,6 +71,12 @@ public class SentryAI : MonoBehaviour
                 if (head != null)
                     head.Rotate(Vector3.up, rotationSpeed * 0.25f * Time.deltaTime);
             }
+
+            if (Time.time >= nextFireTime)
+            {
+                Shoot();
+                nextFireTime = Time.time + attackRate;
+            }
         }
 
 
@@ -79,7 +89,7 @@ public class SentryAI : MonoBehaviour
 
             if (rb != null)
             {
-                rb.linearVelocity = firePoint.forward * 20f;
+                rb.linearVelocity = firePoint.forward * 25f;
             }
 
             ProjectileDamage projScript = projectile.GetComponent<ProjectileDamage>();

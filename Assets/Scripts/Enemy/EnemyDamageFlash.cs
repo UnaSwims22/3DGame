@@ -1,37 +1,48 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(Renderer))]
 public class EnemyDamageFlash : MonoBehaviour
 {
-    private Renderer rend;
-    private Color originalColor;
-    private Coroutine flashRoutine;
+    private List<Renderer> renderers = new List<Renderer>();
+    private Dictionary<Renderer, Color> originalColors = new Dictionary<Renderer, Color>();
 
     public Color flashColor = Color.red;
     public float flashDuration = 0.15f;
+    
+
+    
 
     void Start()
     {
-        rend = GetComponent<Renderer>();
-        if (rend != null)
-            originalColor = rend.material.color;
+
+        // Fetching all the renderers in enemy model
+        renderers.AddRange(GetComponentsInChildren<Renderer>());
+
+        foreach (Renderer r in renderers)
+        {
+            originalColors[r] = r.material.color;
+        }
+
     }
 
     public void Flash()
     {
-        if (flashRoutine != null)
-            StopCoroutine(flashRoutine);
-        flashRoutine = StartCoroutine(FlashEffect());
+        StopAllCoroutines();
+        StartCoroutine(FlashEffect());
     }
 
     private IEnumerator FlashEffect()
     {
-        if (rend == null) yield break;
 
-        rend.material.color = flashColor;
+        foreach (Renderer r in renderers)
+            r.material.color = flashColor;
+
         yield return new WaitForSeconds(flashDuration);
-        rend.material.color = originalColor;
+
+        foreach (Renderer r in renderers)
+            r.material.color = originalColors[r];
     }
 }
 

@@ -7,29 +7,37 @@ public class Enemy : MonoBehaviour
 
     public GameObject deathEffect;
     private EnemyDamageFlash damageFlash;
+    public EnemyAudio audioPlayer;
+   
 
     void Start()
     {
         currentHealth = maxHealth;
+
+        if (damageFlash == null)
         damageFlash = GetComponent<EnemyDamageFlash>();
+
+        if (audioPlayer == null)
+            audioPlayer = GetComponent<EnemyAudio>();
     }
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(int amount, Vector3 pushDir = default)
     {
         currentHealth -= amount;
 
-        if (damageFlash != null)
-            damageFlash.Flash();
+        damageFlash?.Flash();
+        audioPlayer?.PlayHurt();
+
+        if (pushDir != Vector3.zero && TryGetComponent(out Rigidbody rb))
+            rb.AddForce(pushDir * 7f, ForceMode.Impulse);
 
         if (currentHealth <= 0)
-        {
             Die();
-        }
     }
 
-    void Die()
+    private void Die()
     {
-        if (deathEffect)
+        if (deathEffect != null)
             Instantiate(deathEffect, transform.position, Quaternion.identity);
 
         Destroy(gameObject);

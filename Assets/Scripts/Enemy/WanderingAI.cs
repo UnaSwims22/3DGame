@@ -12,7 +12,10 @@ public class WanderingAI : MonoBehaviour
 {
     [Header("AI Settings")]
     [SerializeField] private GameObject fireballPrefab;
+    public Transform firePoint;
     private GameObject _fireball;
+    private Enemy health;
+    
 
     public float speed = 3.0f;
     public float obstacleRange = 5.0f;
@@ -31,6 +34,8 @@ public class WanderingAI : MonoBehaviour
         _alive = true;
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
         currentHealth = 3;
+        health = GetComponent<Enemy>();
+
     }
 
 
@@ -80,7 +85,7 @@ public class WanderingAI : MonoBehaviour
     {
         if (fireballPrefab != null)
         {
-            _fireball = Instantiate(fireballPrefab, transform.TransformPoint(Vector3.forward * 1.5f), transform.rotation);
+            _fireball = Instantiate(fireballPrefab, firePoint.position, firePoint.rotation);
             Rigidbody rb = _fireball.GetComponent<Rigidbody>();
             Collider fireballCollider = _fireball.GetComponent<Collider>();
             Collider aiCollider = GetComponent<Collider>();
@@ -116,14 +121,10 @@ public class WanderingAI : MonoBehaviour
         _alive = alive;
     }
 
-    public void TakeDamage(int amount, Vector3 pushDirection)
+    public void TakeDamage(int amount, Vector3 pushDir)
     {
-        currentHealth -= amount;
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
-        
+        health.TakeDamage(amount, pushDir);
+
     }
 
     private void Die()
