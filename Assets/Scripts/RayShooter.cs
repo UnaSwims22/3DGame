@@ -8,6 +8,9 @@ public class RayShooter : MonoBehaviour
     public Transform gunTransform;
     public Transform firePoint;
     public GameObject fireballPrefab;
+    
+
+    
 
     [Header("Beam Settings")]
     public float projectileSpeed = 30f;
@@ -21,7 +24,7 @@ public class RayShooter : MonoBehaviour
     [Header("Projectile Appearance")]
     public Material projectileMaterial;
     public ChargeUpController chargeController;
-    public MuzzleFlash muzzleFlash;
+    public ParticleSystem muzzleFlash; 
 
 
     void Start()
@@ -41,6 +44,7 @@ public class RayShooter : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
+            muzzleFlash.Play();
             bool fullPower = chargeController.ReleaseCharge();
             FireRay(fullPower);
         }
@@ -48,8 +52,9 @@ public class RayShooter : MonoBehaviour
     }
 
     void FireRay(bool fullPower)
+
     {
-        muzzleFlash?.PlayFlash();
+        
 
         if (fullPower)
         {
@@ -158,6 +163,8 @@ public class RayShooter : MonoBehaviour
   
     private void HandleHit(RaycastHit hit)
     {
+       
+
         // Apply force
         if (hit.rigidbody != null)
             hit.rigidbody.AddForce(hit.normal * beamForce, ForceMode.Impulse);
