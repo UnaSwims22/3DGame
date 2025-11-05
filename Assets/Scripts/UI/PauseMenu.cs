@@ -4,6 +4,10 @@ using UnityEngine.InputSystem;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenuUI;
+    public GameObject resume;
+    public GameObject quit;
+    public GameObject controls;
+
     private bool isPaused = false;
 
     void Update()

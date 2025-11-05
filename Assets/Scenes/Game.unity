@@ -54278,7 +54278,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flashColor: {r: 1, g: 0, b: 0, a: 1}
-  flashDuration: 0.15
+  flashDuration: 1
 --- !u!23 &342928966
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -105643,14 +105643,14 @@ RectTransform:
   m_GameObject: {fileID: 708675379}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 4.1}
-  m_LocalScale: {x: 1.4040375, y: 0.45243737, z: 0.47592875}
+  m_LocalScale: {x: 1.5865624, y: 0.4976811, z: 0.47592875}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1193601674}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -364.3, y: -50.3}
+  m_AnchoredPosition: {x: -364.3, y: -45.1}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &708675381
@@ -272717,6 +272717,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fog Lighting effect  (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1956986049303825121, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5668816374708917901, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
       propertyPath: m_LocalPosition.x
       value: 78.37332
@@ -274086,6 +274090,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 1077593027}
+  resume: {fileID: 0}
+  quit: {fileID: 0}
+  controls: {fileID: 0}
 --- !u!114 &1708821596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353128,6 +353135,10 @@ PrefabInstance:
     - target: {fileID: 1956986049303825121, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
       propertyPath: m_Name
       value: 'Fog Lighting effect '
+      objectReference: {fileID: 0}
+    - target: {fileID: 1956986049303825121, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5668816374708917901, guid: 6812dafd1844606428bf9c04304058ee, type: 3}
       propertyPath: m_LocalPosition.x
