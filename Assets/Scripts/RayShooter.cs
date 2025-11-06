@@ -174,10 +174,11 @@ public class RayShooter : MonoBehaviour
         }
 
         // Damage enemies
-        Enemy enemyHealth = hit.collider.GetComponent<Enemy>();
+        Enemy enemyHealth = hit.collider.GetComponentInParent<Enemy>();
         if (enemyHealth != null)
         {
-            enemyHealth.TakeDamage(1);
+            Vector3 push = -hit.normal * 6f;
+            enemyHealth.TakeDamage(1, push);
             return;
         }
 
