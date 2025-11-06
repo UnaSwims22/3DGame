@@ -302687,7 +302687,7 @@ MonoBehaviour:
   beamForce: 300
   projectileMaterial: {fileID: 2100000, guid: beeadc115e407a241841c090175bd76a, type: 2}
   chargeController: {fileID: 1920019848}
-  muzzleFlash: {fileID: 915214094}
+  muzzleFlash: {fileID: 198234346748616026, guid: f87328298b0023c47bc68796e7b3015e, type: 3}
 --- !u!114 &1920019848
 MonoBehaviour:
   m_ObjectHideFlags: 0
