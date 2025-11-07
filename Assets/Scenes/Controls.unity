@@ -1286,7 +1286,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: 'ReturnButton '
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9216070132808795997, guid: a71a57965a224f042a4a9f5fa85e9bd9, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

@@ -1,12 +1,6 @@
-using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.InputSystem;
-
 using UnityEngine.SceneManagement;
-using System.Collections.Generic;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using UnityEngine.Windows;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -16,22 +10,21 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] string gameplaySceneName = "Game";
 
     [Header("UI")]
-    private GameObject pauseMenuUI;
-    public Button[] buttons;
+    public GameObject pauseMenuUI;
     
 
-    [Header("Visual Settings")]
-    public Color normalColor = Color.white;
-    public Color selectedColor = Color.grey;
+    [Header("Button Settings")]
+    public Button[] buttons;         //all buttons assigned here
+    public Color normalColor = Color.white; //unselected
+    public Color selectedColor = Color.grey;  //selected
     public float responseSpeed = 500f;
+
 
     private RectTransform[] buttonRects;
     private bool isPaused = false;
 
     private int index = 0;
     private float cooldownTimer = 0.0f;
-    private float inputCooldown => (1f / responseSpeed);
-
 
     void Start()
     {
@@ -39,17 +32,21 @@ public class PauseMenu : MonoBehaviour
 
         buttonRects = new RectTransform[buttons.Length];
         for (int i = 0; i < buttons.Length; i++)
-        {
             buttonRects[i] = buttons[i].GetComponent<RectTransform>();
-        }
+
+        UpdateButtonVisuals();
+        
     }
+
     void Update()
     {
         // PAUSE TOGGLE
-        if (UnityEngine.Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isPaused) Resume();
-            else Pause();
+            if (isPaused) 
+                Resume();
+            else 
+                Pause();
         }
 
         if (!isPaused) return;
@@ -57,8 +54,14 @@ public class PauseMenu : MonoBehaviour
         cooldownTimer -= Time.unscaledDeltaTime;
 
         HandleInput();
-        
-    } 
+
+        if (pauseMenuUI != null)
+        {
+            pauseMenuUI.SetActive(true);
+        }
+
+
+    }
     private void HandleInput()
     {
         if (cooldownTimer > 0f) return;
@@ -66,14 +69,14 @@ public class PauseMenu : MonoBehaviour
         bool changed = false;
 
         // DOWN
-        if (UnityEngine.Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             index = (index + 1) % buttons.Length;
             changed = true;
         }
 
         // UP
-        else if (UnityEngine.Input.GetKeyDown(KeyCode.UpArrow))
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             index--;
             if (index < 0) index = buttons.Length - 1;
@@ -81,25 +84,27 @@ public class PauseMenu : MonoBehaviour
         }
 
         // ENTER = activate selected button
-        if (UnityEngine.Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             buttons[index].onClick.Invoke();
-            changed = true;
+            return;
+            
         }
 
         if (changed)
         {
-            cooldownTimer = inputCooldown;
+            cooldownTimer = 1f / responseSpeed; 
             UpdateButtonVisuals();
         }
     }
+
     private void UpdateButtonVisuals()
     {
         for (int i = 0; i < buttons.Length; i++)
         {
-            ColorBlock c = buttons[i].colors;
-            c.normalColor = (i == index) ? selectedColor : normalColor;
-            buttons[i].colors = c;
+            var colors = buttons[i].colors;
+            colors.normalColor = (i == index) ? selectedColor : normalColor;
+            buttons[i].colors = colors;
         }
     }
 
@@ -126,7 +131,6 @@ public class PauseMenu : MonoBehaviour
     {
 
         Time.timeScale = 1f;
-        PauseReturnHelper.ShouldOpenPauseOnLoad = true;
         SceneManager.LoadScene(sceneName: "Controls");
     }
 

@@ -173,7 +173,6 @@ GameObject:
   - component: {fileID: 6375710341418474530}
   - component: {fileID: 3145788981520315350}
   - component: {fileID: 6716828064536746305}
-  - component: {fileID: 9216070132808795997}
   m_Layer: 5
   m_Name: 'ReturnButton '
   m_TagString: Untagged
@@ -319,17 +318,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd4f4455689503244a52490aa024b292, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &9216070132808795997
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7209359013771852744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5599cad9b2bfa04998a6861f2b3ec91, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pauseMenuSceneName: Game
-  mainMenuSceneName: Main Menu
