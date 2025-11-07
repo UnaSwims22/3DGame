@@ -20,17 +20,22 @@ public class PlayerHealth : MonoBehaviour
     public Color flashColor = new Color(1f, 0f, 0f, 0.5f); // flash color when hit
     public float flashSpeed = 5f;
     public float lowHealthThreshold = 30f;
-    public float pulseSpeed = 3f; // pulse speed for vignette when low HP
+    public float pulseSpeed = 3f; 
 
     [Header("Camera Shake Settings")]
     public Camera mainCamera;
     public float shakeDuration = 0.15f;
     public float shakeMagnitude = 0.2f;
 
-    [Header("Audio Settings")]
-    public AudioClip heartbeatClip; // assign a slow, bassy heartbeat sound
+    [Header("Audio Clips")]
+    public AudioClip heartbeatClip;
+    public AudioClip hurtClip;
     public float heartbeatInterval = 1f; // delay between beats at low health
-    private AudioSource damageAudio;
+    
+
+    [Header("Audio")]
+    public AudioSource heartbeatAudio;
+    public AudioSource hurtAudio;
 
     private bool isFlashing = false;
     private bool isPulsing = false;
@@ -52,14 +57,27 @@ public class PlayerHealth : MonoBehaviour
         {
             baseColor = damageIndicator.color;
             damageIndicator.color = Color.clear;
+            RectTransform rt = damageIndicator.rectTransform;
+            rt.anchorMin = Vector2.zero;
+            rt.anchorMax = Vector2.one;
+            rt.offsetMin = Vector2.zero;
+            rt.offsetMax = Vector2.zero;
         }
 
         if (mainCamera == null)
             mainCamera = Camera.main;
 
-        damageAudio = GetComponent<AudioSource>();
-        damageAudio.loop = false;
-        damageAudio.playOnAwake = false;
+        //Heartbeat Audio
+        heartbeatAudio = GetComponent<AudioSource>();
+        heartbeatAudio.loop = false;
+        heartbeatAudio.playOnAwake = false;
+
+        
+        //Hurt Audio
+        hurtAudio = gameObject.AddComponent<AudioSource>();
+        hurtAudio.loop = false;
+        hurtAudio.playOnAwake = false;
+       
 
         
     }
@@ -67,7 +85,7 @@ public class PlayerHealth : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        // Test damage (press K)
+        // Test damage 
         if (Input.GetKeyDown(KeyCode.J))
             TakeDamage(20f);
     }
@@ -77,13 +95,15 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
-        
-
-        if (damageAudio)
-            damageAudio.Play();
+        if (hurtClip != null)
+            hurtAudio.PlayOneShot(hurtClip);
 
         if (healthBar != null)
             healthBar.SetHealth(currentHealth, maxHealth);
+
+        //Flash screen
+        if (!isFlashing)
+            StartCoroutine(DamageFlash());
 
         // Flash red and shake camera
         if (damageIndicator != null && !isFlashing)
@@ -138,8 +158,8 @@ public class PlayerHealth : MonoBehaviour
             heartbeatRoutine = null;
         }
 
-        if (damageAudio.isPlaying)
-            damageAudio.Stop();
+        if (heartbeatAudio.isPlaying)
+            heartbeatAudio.Stop();
     }
 
     private void Die()
@@ -204,9 +224,9 @@ public class PlayerHealth : MonoBehaviour
     {
         while (currentHealth <= lowHealthThreshold)
         {
-            if (heartbeatClip != null && !damageAudio.isPlaying)
+            if (heartbeatClip != null && !heartbeatAudio.isPlaying)
             {
-                damageAudio.PlayOneShot(heartbeatClip);
+                heartbeatAudio.PlayOneShot(heartbeatClip);
             }
 
             // heartbeat speeds up slightly as health gets lower
@@ -224,8 +244,8 @@ public class PlayerHealth : MonoBehaviour
         {
             float x = Random.Range(-1f, 1f) * shakeMagnitude;
             float y = Random.Range(-1f, 1f) * shakeMagnitude;
-
             mainCamera.transform.localPosition = originalPos + new Vector3(x, y, 0);
+           
             elapsed += Time.deltaTime;
             yield return null;
         }
