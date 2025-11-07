@@ -1,8 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
+    [Header("Scene Names")]
+    [SerializeField] string controlsSceneName = "Controls";
+    
     public GameObject pauseMenuUI;
     public GameObject resume;
     public GameObject quit;
@@ -26,6 +30,8 @@ public class PauseMenu : MonoBehaviour
             pauseMenuUI.SetActive(true);
         }
 
+
+
     }
     public void Pause()
     {
@@ -38,6 +44,16 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;  //unfreezes game
+    }
+
+    public void PressControlls()
+    {
+        SceneManager.LoadScene(sceneName: "Controls");
+    }
+
+    public void QuitButton()
+    {
+        SceneManager.LoadScene(sceneName: "Main Menu");
     }
 
     public void Quit()
