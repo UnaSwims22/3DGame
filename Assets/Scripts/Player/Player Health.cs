@@ -85,9 +85,7 @@ public class PlayerHealth : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        // Test damage 
-        if (Input.GetKeyDown(KeyCode.J))
-            TakeDamage(20f);
+       
     }
 
     public void TakeDamage(float amount)

@@ -8,9 +8,12 @@ public class RayShooter : MonoBehaviour
     public Transform gunTransform;
     public Transform firePoint;
     public GameObject fireballPrefab;
-    
 
-    
+
+    [Header("Raygun sounds")]
+    public AudioClip rayGunClip;
+    public AudioSource rayGunAudio;
+
 
     [Header("Beam Settings")]
     public float projectileSpeed = 30f;
@@ -34,6 +37,11 @@ public class RayShooter : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        
+        rayGunAudio = gameObject.AddComponent<AudioSource>();
+        rayGunAudio.loop = false;
+        rayGunAudio.playOnAwake = false;
+
     }
 
     void Update()
@@ -54,6 +62,9 @@ public class RayShooter : MonoBehaviour
     void FireRay(bool fullPower)
 
     {
+
+        if (rayGunClip != null)
+            rayGunAudio.PlayOneShot(rayGunClip);
         
 
         if (fullPower)
