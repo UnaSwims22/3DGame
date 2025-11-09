@@ -69873,7 +69873,7 @@ MonoBehaviour:
   cameraTransform: {fileID: 1039271964}
   lookSensitivity: 0.8
   verticalLookLimit: 90
-  animator: {fileID: 0}
+  animator: {fileID: 1139988590}
   crouchHeight: 0.5
   standHeight: 2
   crouchSpeed: 2
@@ -151444,15 +151444,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8432d03043c9f5b42a2034deb7c9d132, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 48.59
+      value: 43.76
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8432d03043c9f5b42a2034deb7c9d132, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.66
+      value: 4.35
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8432d03043c9f5b42a2034deb7c9d132, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 43.128006
+      value: 39.46
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8432d03043c9f5b42a2034deb7c9d132, type: 3}
       propertyPath: m_LocalRotation.w
@@ -158504,7 +158504,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!154 &999968135
 TerrainCollider:
   m_ObjectHideFlags: 0
@@ -347879,7 +347879,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 6.61e-42, y: 0, z: 2.7105054e-20, w: 3.58169e-39}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ForceVisible: 0

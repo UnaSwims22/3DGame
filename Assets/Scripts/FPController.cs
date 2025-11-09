@@ -9,11 +9,12 @@ using UnityEngine.InputSystem;
 //Availability: Ulwazi
 public class FPController : MonoBehaviour
 {
+
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
     public float gravity = -9.81f;
-    
-    //(Jumping)
+
+    // Jumping
     public float jumpHeight = 1.5f;
 
     [Header("Look Settings")]
@@ -21,24 +22,24 @@ public class FPController : MonoBehaviour
     public Transform cameraTransform;
     public float lookSensitivity = 2f;
     public float verticalLookLimit = 90f;
-    
 
-   
     private CharacterController controller;
     private Vector2 moveInput;
     private Vector2 lookInput;
     private Vector3 velocity;
     private float verticalRotation = 0f;
+
     [SerializeField] private Animator animator;
     private CharacterController CharacterController => controller;
 
-    //(Crouching)
+    // Crouching
     public float crouchHeight = 1f;
     public float standHeight = 2f;
     public float crouchSpeed = 2f;
     private float originalMoveSpeed;
+    private bool isCrouching = false;
 
-    [Header("PickUp Settiings")]
+    [Header("PickUp Settings")]
     public float pickupRange = 3f;
     public Transform holdPoint;
     private PickUpObject heldObject;
@@ -56,65 +57,53 @@ public class FPController : MonoBehaviour
 
         originalMoveSpeed = moveSpeed;
     }
+
     private void Update()
     {
         HandleMovement();
         HandleLook();
 
+        // Keep held item following the hold point
         if (heldObject != null)
         {
             heldObject.MoveToHoldPoint(holdPoint.position);
         }
-        
 
+        UpdateAnimationStates();
     }
+
+    // -------------------- INPUT METHODS --------------------
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
     }
+
     public void OnLook(InputAction.CallbackContext context)
     {
         lookInput = context.ReadValue<Vector2>();
     }
-    public void HandleMovement()
-    {
-        Vector3 move = transform.right * moveInput.x + transform.forward *
-        moveInput.y;
-        controller.Move(move * moveSpeed * Time.deltaTime);
-        if (controller.isGrounded && velocity.y < 0)
-            velocity.y = -2f;
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
-    }
-    public void HandleLook()
-    {
-        float mouseX = lookInput.x * lookSensitivity;
-        float mouseY = lookInput.y * lookSensitivity;
-        verticalRotation -= mouseY;
-        verticalRotation = Mathf.Clamp(verticalRotation, -verticalLookLimit,
-        verticalLookLimit);
-        cameraTransform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
-        transform.Rotate(Vector3.up * mouseX);
-    }
+
     public void OnCrouch(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
+            isCrouching = true;
             controller.height = crouchHeight;
             moveSpeed = crouchSpeed;
         }
         else if (context.canceled)
         {
+            isCrouching = false;
             controller.height = standHeight;
             moveSpeed = originalMoveSpeed;
         }
     }
-           
+
     public void OnPickUp(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
 
-        if(heldObject == null)
+        if (heldObject == null)
         {
             Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
             if (Physics.Raycast(ray, out RaycastHit hit, pickupRange))
@@ -130,8 +119,6 @@ public class FPController : MonoBehaviour
                     Debug.Log("Object hit has no PickUpObject component: " + hit.collider.name);
                 }
             }
-
-
         }
         else
         {
@@ -140,14 +127,51 @@ public class FPController : MonoBehaviour
         }
     }
 
-
-    
- 
     public void OnJump(InputAction.CallbackContext context)
     {
         if (context.performed && controller.isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            animator.SetBool("isJumping", true);
         }
+    }
+
+    // -------------------- CORE MOVEMENT --------------------
+    private void HandleMovement()
+    {
+        Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.y;
+        controller.Move(move * moveSpeed * Time.deltaTime);
+
+        if (controller.isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f;
+            animator.SetBool("isJumping", false); // reset jump when grounded
+        }
+
+        velocity.y += gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
+    }
+
+    private void HandleLook()
+    {
+        float mouseX = lookInput.x * lookSensitivity;
+        float mouseY = lookInput.y * lookSensitivity;
+
+        verticalRotation -= mouseY;
+        verticalRotation = Mathf.Clamp(verticalRotation, -verticalLookLimit, verticalLookLimit);
+
+        cameraTransform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
+        transform.Rotate(Vector3.up * mouseX);
+    }
+
+    // -------------------- ANIMATION LOGIC --------------------
+    private void UpdateAnimationStates()
+    {
+        // Walking: check if the player is moving on the ground
+        bool isWalking = controller.isGrounded && moveInput.magnitude > 0.1f && !isCrouching;
+        animator.SetBool("isWalking", isWalking);
+
+        // Crouching: use our state variable
+        animator.SetBool("isCrouching", isCrouching);
     }
 }
