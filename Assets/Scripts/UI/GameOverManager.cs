@@ -1,30 +1,73 @@
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class GameOverManager : MonoBehaviour
 {
-    public GameObject gameOverUI;
+    [Header("UI")]
+    public GameObject gameOverPanel;
+    public Button restartButton;
+    public Button quitButton;
 
+    [Header("Player Reference")]
+    public GameObject player;
+
+
+    private bool isGameOver = false;
+
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        gameOverUI.SetActive(false);
+        if (gameOverPanel != null)
+            gameOverPanel.SetActive(false);
+        
     }
 
-    public void ShowGameOver()
+    
+    public void TriggerGameOver()
     {
-        gameOverUI.SetActive(true);
-        Time.timeScale = 0f;    //freezes the game
+        Debug.Log(" TriggerGameOver() CALLED");
+
+        if (isGameOver) return;
+        isGameOver = true;
+
+        // Show game over UI
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(true);
+            Debug.Log(" Game Over Panel SET ACTIVE");
+        }
+        else 
+        {
+            Debug.LogError(" GameOverPanel is NOT assigned!");
+        }
+
+        if (player != null)
+        {
+            var controller = player.GetComponent<FPController>();
+            if (controller != null) controller.enabled = false;
+        }
+
+
     }
 
-    public void Retry()
+    public void RestartGame()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(sceneName: "MainMenu");
+        
     }
 
-    public void Quit()
+    public void QuitGame()
     {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
         Application.Quit();
-        Debug.Log("Quit!");
+#endif
+        
     }
 }
+  

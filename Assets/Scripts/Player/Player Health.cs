@@ -37,6 +37,9 @@ public class PlayerHealth : MonoBehaviour
     public AudioSource heartbeatAudio;
     public AudioSource hurtAudio;
 
+
+    public GameOverManager gameOverManager;
+    private bool isDead = false;
     private bool isFlashing = false;
     private bool isPulsing = false;
     private Coroutine pulseRoutine;
@@ -49,6 +52,8 @@ public class PlayerHealth : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
+       
+        
         currentHealth = maxHealth;
         if (healthBar != null)
             healthBar.SetHealth(currentHealth, maxHealth);
@@ -90,6 +95,8 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
+        if (isDead) return;  // Prevent coroutines on a disabled player
+
         currentHealth -= amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
@@ -162,10 +169,27 @@ public class PlayerHealth : MonoBehaviour
 
     private void Die()
     {
-        gameObject.SetActive(false);
-        Debug.Log("Player Died!");
         
-        // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if (isDead) return;  //  Prevent double-call
+
+        isDead = true;
+
+        Debug.Log("Player Died!");
+
+        // Stop all damage & heartbeat effects
+        StopAllCoroutines();
+        StopLowHealthEffects();
+
+        // Clear screen UI
+        if (damageIndicator != null)
+            damageIndicator.color = Color.clear;
+
+        StopLowHealthEffects();
+
+        if (gameOverManager != null)
+            gameOverManager.TriggerGameOver();
+        else
+            Debug.LogError("GameOverManager not assigned in PlayerHealth!");
     }
 
     IEnumerator DamageFlash()
