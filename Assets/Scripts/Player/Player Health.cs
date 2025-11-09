@@ -167,11 +167,11 @@ public class PlayerHealth : MonoBehaviour
             heartbeatAudio.Stop();
     }
 
+    [System.Obsolete]
     private void Die()
     {
         
         if (isDead) return;  //  Prevent double-call
-
         isDead = true;
 
         Debug.Log("Player Died!");
@@ -190,7 +190,17 @@ public class PlayerHealth : MonoBehaviour
             gameOverManager.TriggerGameOver();
         else
             Debug.LogError("GameOverManager not assigned in PlayerHealth!");
+
+        PauseMenu pauseMenu = FindObjectOfType<PauseMenu>();
+        if (pauseMenu != null)
+        {
+            pauseMenu.isGameOver = true;
+            
+        }
+
     }
+
+   
 
     IEnumerator DamageFlash()
     {

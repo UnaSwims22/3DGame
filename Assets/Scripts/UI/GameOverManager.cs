@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameOverManager : MonoBehaviour
 {
+    public static bool GameIsPaused = false;
+
     [Header("UI")]
     public GameObject gameOverPanel;
     public Button restartButton;
@@ -22,7 +24,12 @@ public class GameOverManager : MonoBehaviour
     {
         if (gameOverPanel != null)
             gameOverPanel.SetActive(false);
-        
+
+        if (restartButton != null)
+            restartButton.onClick.AddListener(RestartGame);
+
+        if (quitButton != null)
+            quitButton.onClick.AddListener(QuitGame);
     }
 
     
@@ -56,7 +63,7 @@ public class GameOverManager : MonoBehaviour
     public void RestartGame()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(sceneName: "MainMenu");
+        SceneManager.LoadScene(sceneName: "Game");
         
     }
 

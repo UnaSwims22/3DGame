@@ -11,7 +11,10 @@ public class PauseMenu : MonoBehaviour
 
     [Header("UI")]
     public GameObject pauseMenuUI;
-    
+
+    [Header("Game Over Settings")]
+    public GameObject gameOverUI;
+    public bool isGameOver = false;
 
     [Header("Button Settings")]
     public Button[] buttons;         //all buttons assigned here
@@ -23,7 +26,7 @@ public class PauseMenu : MonoBehaviour
     private RectTransform[] buttonRects;
     private bool isPaused = false;
 
-    private int index = 0;
+    public int index = 0;
     private float cooldownTimer = 0.0f;
 
     void Start()
@@ -41,7 +44,7 @@ public class PauseMenu : MonoBehaviour
     void Update()
     {
         // PAUSE TOGGLE
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (!isGameOver && Input.GetKeyDown(KeyCode.Escape))
         {
             if (isPaused) 
                 Resume();
@@ -49,17 +52,16 @@ public class PauseMenu : MonoBehaviour
                 Pause();
         }
 
-        if (!isPaused) return;
+        if (!isPaused && !isGameOver) return;
 
         cooldownTimer -= Time.unscaledDeltaTime;
 
         HandleInput();
 
-        if (pauseMenuUI != null)
-        {
-            pauseMenuUI.SetActive(true);
-        }
 
+
+        if (pauseMenuUI != null) pauseMenuUI.SetActive(isPaused);
+        if (gameOverUI != null) gameOverUI.SetActive(isGameOver);
 
     }
     private void HandleInput()

@@ -50,6 +50,8 @@ public class RayShooter : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
             chargeController.BeginCharge();
 
+        if (GameOverManager.GameIsPaused)
+            return; // Ignore input if game is over
 
         if (Input.GetMouseButtonDown(0))
         {
