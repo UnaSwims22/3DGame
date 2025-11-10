@@ -1,10 +1,11 @@
 using UnityEngine;
-using TMPro;
+
 using System.Collections;
+using UnityEngine.UI;
 
 public class Dialogue : MonoBehaviour
 {
-    public TMP_Text textOB;
+    public Text text;
     public GameObject Activator;
     public string dialogue = "Dialogue";
 
@@ -13,7 +14,7 @@ public class Dialogue : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        textOB.GetComponent<TMP_Text>().enabled = false;
+        text.GetComponent<Text>().enabled = false;
     }
 
     
@@ -21,8 +22,8 @@ public class Dialogue : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            textOB.GetComponent<TMP_Text>().enabled = true;
-            textOB.text = dialogue.ToString();
+            text.GetComponent<Text>().enabled = true;
+            text.text = dialogue.ToString();
             StartCoroutine(DisableText());
         }
     }
@@ -30,7 +31,7 @@ public class Dialogue : MonoBehaviour
     IEnumerator DisableText()
     {
         yield return new WaitForSeconds(timer);
-        textOB.GetComponent<TMP_Text>().enabled = false;
+        text.GetComponent<Text>().enabled = false;
         Destroy(Activator);
     }
 }
