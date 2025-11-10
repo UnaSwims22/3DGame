@@ -12,6 +12,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - BEVEL_ON
   - GLOW_ON
   - UNDERLAY_ON
   m_InvalidKeywords: []
@@ -87,7 +88,7 @@ Material:
     - _ScaleRatioC: 0.64772725
     - _ScaleX: 1
     - _ScaleY: 1
-    - _ShaderFlags: 0
+    - _ShaderFlags: 1
     - _Sharpness: 0
     - _SpecularPower: 2
     - _Stencil: 0
