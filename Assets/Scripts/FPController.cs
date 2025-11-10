@@ -48,6 +48,8 @@ public class FPController : MonoBehaviour
     public float throwForce = 10f;
     public float throwUpwardBoost = 1f;
 
+
+
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
